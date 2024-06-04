@@ -1,14 +1,78 @@
 .container {
     display: flex;
-    justify-content: flex-end;
-    min-height: 93px;
+    justify-content: space-between;
+    height: 93px;
     align-items: center;
     width: 100%;
-    position: relative;
 }
 
-.image {
-    position: absolute;
-    top: -24px;
-    left: 0;
+.imgContainer {
+    flex: 1;
+}
+
+.navigation {
+    flex: 1;
+}
+
+.navList {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 49px;
+    margin: 0;
+    padding: 0;
+}
+
+.link {
+    color: black;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 1%;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.panelContainer {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.loginPanel {
+    display: flex;
+    gap: 40px;
+}
+
+.divider {
+    height: 26px;
+    width: 2px;
+    background-color: rgb(2, 148, 145);
+
+    opacity: .6;
+}
+
+.button {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+    letter-spacing: 1%;
+    border: none;
+    border-radius: 5px;
+    background: rgb(124, 227, 225);
+    padding: 5px 12px;
+}
+
+.registerButton {
+    color: rgb(0, 0, 0);
+    font-weight: 400;
+    opacity: .4;
+    background: none;
+    padding: 0;
+}
+
+.button:hover {
+    cursor: pointer;
 }
