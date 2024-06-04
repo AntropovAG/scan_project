@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    justify-content: flex-end;
+    min-height: 93px;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+.image {
+    position: absolute;
+    top: -24px;
+    left: 0;
+}
