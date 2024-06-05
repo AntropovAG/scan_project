@@ -1,0 +1,38 @@
+.footer {
+    display: flex;
+    width: 100%;
+    height: 141px;
+    background-color: #029491;
+    margin-top: auto;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1440px;
+    padding: 0 60px;
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    height: 87px;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: flex-end;
+}
+
+.text {
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+}

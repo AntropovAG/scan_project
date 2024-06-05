@@ -1,9 +1,16 @@
+.header {
+    display: flex;
+    width: 100%;
+    height: 93px;
+    justify-content: center;
+}
+
 .container {
     display: flex;
     justify-content: space-between;
-    height: 93px;
     align-items: center;
-    width: 100%;
+    width: 1440px;
+    padding: 0 60px;
 }
 
 .imgContainer {
@@ -74,5 +81,96 @@
 }
 
 .button:hover {
+    cursor: pointer;
+}
+
+.userInfoContainer {
+    display: flex;
+    gap: 128px;
+    align-items: center;
+}
+
+.infoPanel {
+    height: 63px;
+    width: 175px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    background: rgba(217, 217, 217, 0.3);
+    padding: 9px;
+    gap: 5px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+}
+
+.text {
+    height: 17px;
+    padding: 2px 0;
+    color: rgb(0, 0, 0);
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 12px;
+    letter-spacing: 0%;
+    opacity: .4;
+    text-align: right;
+}
+
+.used {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 17px;
+    letter-spacing: 0%;
+}
+
+.limit {
+    color: rgb(138, 197, 64);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 17px;
+    letter-spacing: 0%;
+}
+
+.logoutGroup {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.username {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+}
+
+.userImg {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: flex-end;
+
+}
+
+.logoutButton {
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 12px;
+    opacity: .4;
+    border: none;
+    padding: 0;
+    background: none;
+}
+
+.logoutButton:hover {
     cursor: pointer;
 }
