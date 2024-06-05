@@ -1,0 +1,17 @@
+<svg width="64.000000" height="64.000000" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs>
+		<pattern id="pattern_1_12860" patternContentUnits="objectBoundingBox" width="1.000000" height="1.000000">
+			<use xlink:href="#image1_1286_0" transform="matrix(0.015625,0,0,0.015625,0,0)"/>
+		</pattern>
+		<image id="image1_1286_0" width="64.000000" height="64.000000" xlink:href="data:image/png;base64,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"/>
+	</defs>
+	<mask id="mask1_1286" mask-type="alpha" maskUnits="userSpaceOnUse" x="0.000000" y="0.000000" width="64.000000" height="64.000000">
+		<rect id="icons8-накладка-дверного-замка-64 1" width="64.000000" height="64.000000" fill="url(#pattern_1_12860)" fill-opacity="1.000000"/>
+	</mask>
+	<g mask="url(#mask1_1286)">
+		<rect id="Rectangle 22" x="3.000000" y="-8.000000" width="65.000000" height="79.000000" fill="#029491" fill-opacity="1.000000"/>
+	</g>
+</svg>

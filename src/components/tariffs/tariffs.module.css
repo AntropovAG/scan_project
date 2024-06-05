@@ -1,0 +1,160 @@
+.tariffs {
+    display: flex;
+    flex-direction: column;
+    max-width: 1320px;
+    padding-top: 107px;
+    gap: 60px;
+}
+
+.heading {
+    font-family: Ferry;
+    font-size: 45px;
+    font-weight: 900;
+    line-height: 54px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    width: 415px;
+    min-height: 540px;
+    /* border: 2px solid rgb(255, 182, 79); */
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+}
+
+.itemTitleContainer {
+    max-height: 132px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    padding: 30px;
+    justify-content: space-between;
+    position: relative;
+}
+
+.orange {
+    background-color: rgb(255, 182, 79);
+}
+
+.blue {
+    background-color: rgb(124, 227, 225);
+}
+
+.black {
+    background-color: rgb(0, 0, 0);
+}
+
+.icon {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.itemTitle {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 36px;
+}
+
+.text {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+}
+
+.whiteText {
+    color: rgb(255, 255, 255);
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 33px 20px 0 30px;
+
+}
+
+.priceContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 68px;
+    gap: 10px;
+}
+
+.currentPrice {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 36px;
+}
+
+.prevPrice {
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 30px;
+    text-decoration-line: line-through;
+    opacity: .5;
+}
+.descriptionContainer {
+    display: flex;
+    flex-direction: column;
+    padding-top: 59px;
+}
+
+.descriptionHeading {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.descriptionList {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    list-style: none;
+    margin: 10px 0 0 0;
+    position: relative;
+    padding: 0;
+}
+
+.listItem {
+    display: inline-block;
+    padding: 0 0 0 28px;
+    position: relative;
+}
+
+.listItem::before {
+    content: url('./list_icon.svg');
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.button {
+    width: 355px;
+    height: 60px;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    border-radius: 5px;
+    background: rgb(89, 112, 255);
+    border: none;
+    align-self: center;
+    margin-top: 55px;
+}
+
+.button:hover {
+    cursor: pointer;
+    background: rgb(41, 68, 245);
+}
