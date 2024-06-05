@@ -38,15 +38,15 @@
     position: relative;
 }
 
-.orange {
+.orangeBackground {
     background-color: rgb(255, 182, 79);
 }
 
-.blue {
+.blueBackground {
     background-color: rgb(124, 227, 225);
 }
 
-.black {
+.blackBackground {
     background-color: rgb(0, 0, 0);
 }
 

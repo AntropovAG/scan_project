@@ -3,6 +3,7 @@ import { tariffs } from '../../utils/constants';
 import clsx from 'clsx';
 
 export default function Tariffs() {
+    
 
     return (
         <section className={styles.tariffs}>
@@ -14,9 +15,9 @@ export default function Tariffs() {
 
                             <div className={ clsx(
                                 styles.itemTitleContainer,
-                                { [styles.blue]: tariff.color === 'blue' },
-                                { [styles.black]: tariff.color === 'black' },
-                                { [styles.orange]: tariff.color === 'orange' },
+                                { [styles.blueBackground]: tariff.color === 'blue' },
+                                { [styles.blackBackground]: tariff.color === 'black' },
+                                { [styles.orangeBackground]: tariff.color === 'orange' },
                             )}>
                                 <div className={clsx(styles.itemTitle,
                                     { [styles.whiteText]: tariff.color === 'black'}
