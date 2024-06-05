@@ -1,17 +1,28 @@
 import styles from './tariffs.module.css';
 import { tariffs } from '../../utils/constants';
 import clsx from 'clsx';
+import { useState, useEffect } from 'react';
 
 export default function Tariffs() {
-    
+    const [activeTariff, setActiveTariff] = useState<string | undefined | null>(null);
+
+    useEffect(() => {
+        setActiveTariff('Pro')
+    }, [])
 
     return (
         <section className={styles.tariffs}>
             <h2 className={styles.heading}>наши тарифы</h2>
             <div className={styles.container}>
                 {tariffs.map((tariff, index) => {
+                    const isActive = activeTariff === tariff.name;
                     return (
-                        <div className={styles.item} key={index}>
+                        <div className={clsx(
+                            styles.item,
+                            { [styles.blackBorder]: isActive && tariff.color === 'black' },
+                            { [styles.blueBorder]: isActive && tariff.color === 'blue' },
+                            { [styles.orangeBorder]: isActive && tariff.color === 'orange' },
+                            )} key={index}>
 
                             <div className={ clsx(
                                 styles.itemTitleContainer,
@@ -45,7 +56,10 @@ export default function Tariffs() {
                                 </div>
 
                             </div>
-                            <button className={styles.button}>Подробнее</button>
+                            <button className={clsx(
+                                styles.button,
+                                { [styles.buttonDisabled]: isActive },
+                                )} disabled={isActive}>{isActive ? 'Перейти в личный кабинет' : 'Подробнее'}</button>
                         </div>
                     )
                 })}

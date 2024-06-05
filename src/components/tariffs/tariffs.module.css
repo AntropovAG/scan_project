@@ -23,15 +23,26 @@
     flex-direction: column;
     width: 415px;
     min-height: 540px;
-    /* border: 2px solid rgb(255, 182, 79); */
     border-radius: 10px;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
 }
 
+.orangeBorder {
+    border: 2px solid rgb(255, 182, 79);
+}
+
+.blueBorder {
+    border: 2px solid rgb(124, 227, 225);
+}
+
+.blackBorder {
+    border: 2px solid rgb(0, 0, 0);
+}
+
 .itemTitleContainer {
     max-height: 132px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
     display: flex;
     padding: 30px;
     justify-content: space-between;
@@ -69,6 +80,7 @@
 }
 
 .text {
+    width: 371px;
     font-size: 18px;
     font-weight: 400;
     line-height: 22px;
@@ -157,4 +169,14 @@
 .button:hover {
     cursor: pointer;
     background: rgb(41, 68, 245);
+}
+
+.buttonDisabled {
+    background: rgb(210, 210, 210);
+    color: rgb(0, 0, 0);
+}
+
+.buttonDisabled:hover {
+    cursor: default;
+    background: rgb(210, 210, 210);
 }
