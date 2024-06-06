@@ -113,20 +113,6 @@ input::placeholder {
     width: 176px;
 }
 
-/* input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-calendar-picker-indicator {
-    opacity: 0;
-    -webkit-appearance: none;
-}
-
-input[type="date"]:in-range::-webkit-datetime-edit-year-field,
-input[type="date"]:in-range::-webkit-datetime-edit-month-field,
-input[type="date"]:in-range::-webkit-datetime-edit-day-field,
-input[type="date"]:in-range::-webkit-datetime-edit-text,
-input[type="date"]:in-range::-webkit-clear-button {
-    display: none;
-} */
-
 .checkboxsContainer {
     display: flex;
     flex-direction: column;

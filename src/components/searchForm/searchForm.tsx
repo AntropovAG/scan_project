@@ -2,28 +2,19 @@ import styles from './searchForm.module.css'
 import { useState, useEffect } from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { formatDate } from '../../utils/supportFunctions';
+
 
 export default function SearchForm() {
     const [startDate, setStartDate] = useState<null | Date>(null);
     const [endDate, setEndDate] = useState<null | Date>(null);
     const [isValid, setIsValid] = useState(false);
 
-    // const handleOnFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    //     e.currentTarget.type = 'date'
-    // }
-
-    // const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>, placeholder: string) => {
-    //     if (!e.currentTarget.value) {
-    //         e.currentTarget.type = 'text';
-    //         e.currentTarget.placeholder = placeholder;
-    //     }
-    // }
-
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget);
-        formData.append('startDate', startDate);
-        formData.append('endDate', endDate);
+        formData.append('startDate', formatDate(startDate));
+        formData.append('endDate', formatDate(endDate));
         const data = Object.fromEntries(formData.entries());
         console.log(data);
     }
@@ -49,13 +40,15 @@ export default function SearchForm() {
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.inputsContainer}>
                         <div className={styles.inputGroup}>
-                            <label className={styles.label} htmlFor="inn">ИНН компании *</label>
+                            <label className={styles.label} htmlFor="inn">ИНН компании <span style={{ color: 'red' }}>*</span></label>
                             <input className={styles.input} type="text" id="inn" name="inn" placeholder='10 цифр' required />
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label} htmlFor="tone">Тональность</label>
                             <select className={`${styles.input} ${styles.select}`} name="tone" id="tone">
                                 <option value="any">Любая</option>
+                                <option value="negative">Негативная</option>
+                                <option value="positive">Положительная</option>
                             </select>
                         </div>
                         <div className={styles.inputGroup}>
@@ -66,16 +59,18 @@ export default function SearchForm() {
                             <label className={styles.label} htmlFor="range">Диапозон поиска *</label>
                             <div className={styles.datesInputs}>
                                 <DatePicker
-                                className={`${styles.input} ${styles.select} ${styles.dateInput}`}
+                                    className={`${styles.input} ${styles.select} ${styles.dateInput}`}
                                     selected={startDate}
                                     onChange={(date) => setStartDate(date)}
                                     selectsStart
                                     startDate={startDate}
                                     endDate={endDate}
+                                    dateFormat='yyyy-MM-dd'
                                     placeholderText='Дата начала'
                                 />
                                 <DatePicker
-                                className={`${styles.input} ${styles.select} ${styles.dateInput}`}
+                                    className={`${styles.input} ${styles.select} ${styles.dateInput}`}
+                                    dateFormat='yyyy-MM-dd'
                                     selected={endDate}
                                     onChange={(date) => setEndDate(date)}
                                     selectsEnd
@@ -84,8 +79,6 @@ export default function SearchForm() {
                                     minDate={startDate}
                                     placeholderText='Дата конца'
                                 />
-                                {/* <input className={`${styles.input} ${styles.select} ${styles.dateInput}`} type="text" id="startDate" placeholder='Дата начала' onFocus={handleOnFocus} onBlur={(e) => handleOnBlur(e, 'Дата начала')} onChange={(e) => setStartDate(e.target.value)} value={startDate} required />
-                                <input className={`${styles.input} ${styles.select} ${styles.dateInput}`} type="text" id="endDate" placeholder='Дата конца' onFocus={handleOnFocus} onBlur={(e) => handleOnBlur(e, 'Дата конца')} onChange={(e) => setEndDate(e.target.value)} value={endDate} required /> */}
                             </div>
                         </div>
                     </div>
