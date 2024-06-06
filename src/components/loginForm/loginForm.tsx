@@ -17,9 +17,9 @@ export default function LoginForm() {
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const login = e.currentTarget.login.value;
-        const password = e.currentTarget.password.value;
-        console.log(login, password)
+        const formData = new FormData(e.currentTarget);
+        const data = Object.fromEntries(formData.entries());
+        console.log(data)
     }
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
