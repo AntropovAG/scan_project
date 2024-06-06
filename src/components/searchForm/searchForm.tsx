@@ -1,21 +1,23 @@
 import styles from './searchForm.module.css'
 import { useState, useEffect } from 'react'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function SearchForm() {
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [startDate, setStartDate] = useState<null | Date>(null);
+    const [endDate, setEndDate] = useState<null | Date>(null);
     const [isValid, setIsValid] = useState(false);
 
-    const handleOnFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-        e.currentTarget.type = 'date'
-    }
+    // const handleOnFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    //     e.currentTarget.type = 'date'
+    // }
 
-    const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>, placeholder: string) => {
-        if (!e.currentTarget.value) {
-            e.currentTarget.type = 'text';
-            e.currentTarget.placeholder = placeholder;
-        }
-    }
+    // const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>, placeholder: string) => {
+    //     if (!e.currentTarget.value) {
+    //         e.currentTarget.type = 'text';
+    //         e.currentTarget.placeholder = placeholder;
+    //     }
+    // }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -63,8 +65,27 @@ export default function SearchForm() {
                         <div className={styles.inputGroup}>
                             <label className={styles.label} htmlFor="range">Диапозон поиска *</label>
                             <div className={styles.datesInputs}>
-                                <input className={`${styles.input} ${styles.select} ${styles.dateInput}`} type="text" id="startDate" placeholder='Дата начала' onFocus={handleOnFocus} onBlur={(e)=>handleOnBlur(e, 'Дата начала')} onChange={(e)=>setStartDate(e.target.value)} value={startDate} required />
-                                <input className={`${styles.input} ${styles.select} ${styles.dateInput}`} type="text" id="endDate" placeholder='Дата конца' onFocus={handleOnFocus} onBlur={(e)=>handleOnBlur(e, 'Дата конца')} onChange={(e)=>setEndDate(e.target.value)} value={endDate} required />
+                                <DatePicker
+                                className={`${styles.input} ${styles.select} ${styles.dateInput}`}
+                                    selected={startDate}
+                                    onChange={(date) => setStartDate(date)}
+                                    selectsStart
+                                    startDate={startDate}
+                                    endDate={endDate}
+                                    placeholderText='Дата начала'
+                                />
+                                <DatePicker
+                                className={`${styles.input} ${styles.select} ${styles.dateInput}`}
+                                    selected={endDate}
+                                    onChange={(date) => setEndDate(date)}
+                                    selectsEnd
+                                    startDate={startDate}
+                                    endDate={endDate}
+                                    minDate={startDate}
+                                    placeholderText='Дата конца'
+                                />
+                                {/* <input className={`${styles.input} ${styles.select} ${styles.dateInput}`} type="text" id="startDate" placeholder='Дата начала' onFocus={handleOnFocus} onBlur={(e) => handleOnBlur(e, 'Дата начала')} onChange={(e) => setStartDate(e.target.value)} value={startDate} required />
+                                <input className={`${styles.input} ${styles.select} ${styles.dateInput}`} type="text" id="endDate" placeholder='Дата конца' onFocus={handleOnFocus} onBlur={(e) => handleOnBlur(e, 'Дата конца')} onChange={(e) => setEndDate(e.target.value)} value={endDate} required /> */}
                             </div>
                         </div>
                     </div>
