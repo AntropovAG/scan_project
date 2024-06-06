@@ -40,6 +40,7 @@ export default function Tariffs() {
                             </div>
 
                             <div className={styles.infoContainer}>
+                                {isActive && <p className={styles.currentTariff}>Текущий тариф</p>}
                                 <div className={styles.priceContainer}>
                                     <p className={styles.currentPrice}>{tariff.currentPrice} &#x20bd; <span className={styles.prevPrice}>{tariff.oldPrice} &#x20bd;</span></p>
                                     <p className={styles.text}>{tariff.discountDescription}</p>

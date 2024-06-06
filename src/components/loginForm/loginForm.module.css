@@ -1,0 +1,180 @@
+.container {
+    display: flex;
+    padding: 70px 0 80px;
+    justify-content: space-between;
+}
+
+.infoWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 800px;
+
+}
+
+.heading {
+    font-family: Ferry;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 48px;
+}
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 430px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+    padding: 25px;
+    position: relative;
+}
+
+.image {
+    position: absolute;
+    top: -60px;
+    left: -50px;
+}
+
+.buttonsGroup {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.button {
+    min-width: 151px;
+    color: rgb(2, 148, 145);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    border: none;
+    background-color: transparent;
+    border-bottom: 2px solid rgb(2, 148, 145);
+    text-align: center;
+    padding-bottom: 8px;
+}
+
+.button:last-of-type {
+    min-width: 213px;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.buttonInactive {
+    color: rgb(199, 199, 199);
+    border-bottom: 2px solid rgb(199, 199, 199);
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 40px;
+}
+
+.label {
+    color: rgb(148, 148, 148);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    padding-bottom: 15px;
+}
+
+.input {
+    width: 100%;
+    padding: 12px 19px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    border: 1px solid rgb(199, 199, 199);
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
+}
+
+.error {
+    color: rgb(255, 89, 89);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    height: 20px;
+    align-self: center;
+}
+
+.submitButton {
+    color: rgb(255, 255, 255);
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 27px;
+    width: 100%;
+    border-radius: 5px;
+    background: rgb(89, 112, 255);
+    padding: 16px 0;
+    border: none;
+}
+
+.submitButton:hover {
+    cursor: pointer;
+    background: rgb(67, 91, 253);;
+}
+
+.disabled {
+    opacity: .5;
+}
+
+.disabled:hover {
+    cursor: default;
+    background: rgb(89, 112, 255);
+}
+
+.registerForm {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 17px;
+    height: 20px;
+    align-self: center;
+    padding-top: 40px;
+}
+
+.restoreLink {
+    color: rgb(89, 112, 255);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 1%;
+    text-align: left;
+    text-decoration-line: underline;
+    padding-top: 15px;
+}
+
+.alterLoginGroup {
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    align-self: flex-start;
+}
+
+.alterButtons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.alterLoginButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 96px;
+    height: 31px;
+    border-radius: 3px;
+    border: 1px solid rgba(89, 112, 255, 0.51);
+    background: none;
+    padding: 0;
+}
+
+.alterLoginButton:hover {
+    cursor: pointer;
+}
+
