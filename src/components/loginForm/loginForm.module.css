@@ -120,11 +120,8 @@
     background: rgb(67, 91, 253);;
 }
 
-.disabled {
+.submitButton:disabled {
     opacity: .5;
-}
-
-.disabled:hover {
     cursor: default;
     background: rgb(89, 112, 255);
 }

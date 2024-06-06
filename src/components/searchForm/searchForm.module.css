@@ -1,0 +1,235 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 69px 0 64px;
+}
+
+.headingContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    position: relative;
+}
+
+.heading {
+    max-width: 817px;
+    font-family: Ferry;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 48px;
+}
+
+.text {
+    max-width: 534px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    word-break: break-word;
+}
+
+.documentIcon {
+    width: 91px;
+    height: 111px;
+    position: absolute;
+    bottom: 0;
+    right: 400px;
+}
+
+.foldersIcon {
+    width: 140px;
+    height: 68px;
+    position: absolute;
+    bottom: 20px;
+    right: 40px;
+}
+
+.formWrapper {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 47px;
+}
+
+.form {
+    display: flex;
+    width: 872px;
+    min-height: 543px;
+    padding: 21px 29px 32px 44px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+    justify-content: space-between;
+}
+
+.inputsContainer {
+    display: flex;
+    flex-direction: column;
+    width: 372px;
+    gap: 30px;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.label {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+    position: relative;
+}
+
+.input {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    height: 43px;
+    width: 242px;
+    border: 1px solid rgb(199, 199, 199);
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
+    padding: 13px 17px;
+}
+
+input::placeholder {
+    text-align: center;
+    color: rgb(148, 148, 148);
+    opacity: .4;
+}
+
+.select {
+    appearance: none;
+    background-image: url('./select_arrow.svg');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+}
+
+.datesInputs {
+    display: flex;
+    gap: 20px;
+}
+
+.dateInput {
+    width: 176px;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    -webkit-appearance: none;
+}
+
+input[type="date"]:in-range::-webkit-datetime-edit-year-field,
+input[type="date"]:in-range::-webkit-datetime-edit-month-field,
+input[type="date"]:in-range::-webkit-datetime-edit-day-field,
+input[type="date"]:in-range::-webkit-datetime-edit-text,
+input[type="date"]:in-range::-webkit-inner-spin-button,
+input[type="date"]:in-range::-webkit-clear-button {
+    color: transparent;
+}
+
+.checkboxsContainer {
+    display: flex;
+    flex-direction: column;
+    width: 406px;
+    justify-content: space-between;
+}
+
+.checkboxList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgb(0, 0, 0);
+    transform: translateY(4px);
+    cursor: pointer;
+    position: relative;
+    margin-right: 17px;
+}
+
+input[type="checkbox"]::before {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    content: url('./checkmark.svg');
+    width: 10px;
+    height: 10px;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    display: grid;
+}
+
+input[type="checkbox"]:checked::before {
+    transform: scale(1);
+}
+
+input[type="checkbox"]:not(:checked) + label {
+    opacity: .4;
+}
+
+input[type="checkbox"]:not(:checked) {
+    opacity: .4;
+}
+
+.imageContainer {
+    width: 442px;
+    position: relative;
+    overflow: hidden;
+}
+
+.image {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: translateX(50px);
+}
+
+.buttonGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 305px;
+    align-self: flex-end;
+}
+
+.submitButton {
+    width: 100%;
+    color: rgb(255, 255, 255);
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 27px;
+    letter-spacing: 3%;
+    border: none;
+    border-radius: 5px;
+    background: rgb(89, 112, 255);
+    padding: 16px 0;
+}
+
+.submitButton:hover {
+    cursor: pointer;
+    background: rgb(67, 91, 253);
+}
+
+.submitButton:disabled {
+    opacity: .5;
+    cursor: default;
+    background: rgb(89, 112, 255);
+}
+
+.disclaimerText {
+    color: rgb(148, 148, 148);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+}

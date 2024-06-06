@@ -188,12 +188,8 @@
     background: rgb(41, 68, 245);
 }
 
-.buttonDisabled {
-    background: rgb(210, 210, 210);
-    color: rgb(0, 0, 0);
-}
-
-.buttonDisabled:hover {
+.button:disabled {
     cursor: default;
     background: rgb(210, 210, 210);
+    color: rgb(0, 0, 0);
 }

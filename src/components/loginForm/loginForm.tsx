@@ -56,14 +56,14 @@ export default function LoginForm() {
                     )} id='registerButton' onClick={(e) => handleButtonChange(e)}>Зарегистрироваться</button>
                 </div>
                 {activeButton === 'loginButton' ? (<>
-                    <form className={styles.form} action="submit" onSubmit={handleFormSubmit}>
+                    <form className={styles.form} onSubmit={handleFormSubmit}>
                         <label className={styles.label} htmlFor="login">Логин или номер телефона:</label>
                         <input className={styles.input} type="text" id="login" name="login" onChange={handleOnChange} required />
                         <span className={styles.error}></span>
                         <label className={styles.label} htmlFor="password">Пароль:</label>
                         <input className={styles.input} type="password" id="password" name="password" onChange={handleOnChange} required />
                         <span className={styles.error}></span>
-                        <button className={clsx(styles.submitButton, {[styles.disabled]: !isValid})} type="submit" disabled={!isValid}>Войти</button>
+                        <button className={styles.submitButton} type="submit" disabled={!isValid}>Войти</button>
                     </form>
                     <Link className={styles.restoreLink} to={"/restore"}>Восстановить пароль</Link>
                     <div className={styles.alterLoginGroup}>

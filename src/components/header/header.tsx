@@ -54,9 +54,9 @@ export default function Header() {
                         </> :
                         <>
                             <div className={styles.loginPanel}>
-                                <button className={`${styles.button} ${styles.registerButton}`}>Зарегистрироваться</button>
+                                <Link to={"/register"} className={`${styles.authLink} ${styles.registerLink}`}>Зарегистрироваться</Link>
                                 <div className={styles.divider}></div>
-                                <button className={styles.button} onClick={handleLogin}>Войти</button>
+                                <Link to={"/login"} className={styles.authLink} onClick={handleLogin}>Войти</Link>
                             </div>
                         </>}
 

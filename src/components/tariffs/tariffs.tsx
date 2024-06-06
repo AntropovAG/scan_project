@@ -17,7 +17,7 @@ export default function Tariffs() {
                 {tariffs.map((tariff, index) => {
                     const isActive = activeTariff === tariff.name;
                     return (
-                        <div className={clsx(
+                        <article className={clsx(
                             styles.item,
                             { [styles.blackBorder]: isActive && tariff.color === 'black' },
                             { [styles.blueBorder]: isActive && tariff.color === 'blue' },
@@ -57,11 +57,8 @@ export default function Tariffs() {
                                 </div>
 
                             </div>
-                            <button className={clsx(
-                                styles.button,
-                                { [styles.buttonDisabled]: isActive },
-                                )} disabled={isActive}>{isActive ? 'Перейти в личный кабинет' : 'Подробнее'}</button>
-                        </div>
+                            <button className={styles.button} disabled={isActive}>{isActive ? 'Перейти в личный кабинет' : 'Подробнее'}</button>
+                        </article>
                     )
                 })}
             </div>
