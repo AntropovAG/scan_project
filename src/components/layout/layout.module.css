@@ -2,5 +2,13 @@
     display: flex;
     flex-direction: column;
     width: 1320px;
-    margin: 24px auto 118px;
+    margin: 0 auto 118px;
+}
+
+@media screen and (max-width: 1350px) {
+    .main {
+        width: 768px;
+        margin-bottom: 50px;
+    }
+    
 }

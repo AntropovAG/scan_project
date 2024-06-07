@@ -261,3 +261,36 @@
     cursor: pointer;
     background: rgb(56, 82, 250);
 }
+
+
+@media screen and (max-width: 1350px) {
+    .container {
+        padding-top: 29px;
+    }
+    
+    .headingContainer {
+        flex-direction: column;
+    }
+
+    .image {
+        width: 350px;
+    }
+
+    .sliderContainer {
+        width: 686px;
+    }
+
+    .documentsListContainer {
+        gap: 34px;
+        padding-top: 57px;
+    }
+
+    .documentsList {
+        grid-template-columns: 641px;
+        grid-auto-rows: 691px;
+        margin: 0;
+        padding: 0;
+        justify-content: center;
+        row-gap: 20px;
+    }
+}

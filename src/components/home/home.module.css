@@ -7,7 +7,6 @@
 .container {
     display: flex;
     flex-direction: column;
-
 }
 
 .heading {
@@ -61,4 +60,16 @@
 
 .divider {
     margin-top: 70px;
+}
+
+@media screen and (max-width: 1350px) {
+    .intro {
+        flex-direction: column;
+        min-height: 500px;
+        align-items: center;
+    }
+
+    .image {
+        position: initial;
+    }
 }

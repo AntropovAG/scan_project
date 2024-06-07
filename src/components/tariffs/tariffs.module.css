@@ -193,3 +193,18 @@
     background: rgb(210, 210, 210);
     color: rgb(0, 0, 0);
 }
+
+@media screen and (max-width: 1350px) {
+    .tariffs {
+        align-items: center;
+        max-width: 768px;
+        padding-top: 80px;
+        gap: 33px;
+    }
+    
+    .container {
+        flex-direction: column;
+        align-items: center;
+        gap: 43px;
+    }
+}

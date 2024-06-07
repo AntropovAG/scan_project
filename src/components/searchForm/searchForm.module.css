@@ -232,3 +232,56 @@ input[type="checkbox"]:not(:checked) {
     letter-spacing: 1%;
     padding-top: 2px;
 }
+
+@media screen and (max-width: 1350px) {
+    .container {
+        padding-top: 20px;
+        align-items: center;
+    }
+
+    .formWrapper {
+        flex-direction: column;
+        padding-top: 21px;
+        align-items: center;
+        gap: 24px;
+    }
+    
+    .form {
+        flex-direction: column;
+        width: 768px;
+        min-height: 543px;
+        padding: 40px 26px 37px 50px;
+        gap: 40px;
+    }
+
+    .checkboxList {
+        display: none;
+    }
+    
+    .documentIcon {
+        right: 60px;
+    }
+
+    .foldersIcon {
+        display: none;
+    }
+
+    .imageContainer {
+        width: 379px;
+        height: 403px;
+    }
+
+    .image {
+        width: 379px;
+        height: 403px;
+        transform: translateX(0);
+    }
+    
+    .checkboxsContainer {
+        width: 100%;
+    }
+
+    .buttonGroup {
+        align-self: center;
+    }
+}

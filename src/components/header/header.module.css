@@ -175,3 +175,22 @@
 .logoutButton:hover {
     cursor: pointer;
 }
+
+@media screen and (max-width: 1350px) {
+    .container {
+        width: 768px;
+        padding: 0 10px;
+    }
+
+    .userInfoContainer {
+        gap: 40px;
+    }
+
+    .navList {
+        gap: 30px;
+    }
+
+    .loginPanel {
+        gap: 25px;
+    }
+}

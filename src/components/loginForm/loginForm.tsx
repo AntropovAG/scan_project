@@ -39,12 +39,12 @@ export default function LoginForm() {
 
     return (
         <section className={styles.container}>
-            <div className={styles.infoWrapper}>
-                <h2 className={styles.heading}>Для оформления подписки на тариф, необходимо авторизоваться.</h2>
-                <img src="./characters_image.svg" alt="characters" />
-            </div>
+
+            <h2 className={styles.heading}>Для оформления подписки на тариф, необходимо авторизоваться.</h2>
+            <img className={styles.image} src="./characters_image.svg" alt="characters" />
+
             <div className={styles.formContainer}>
-                <img className={styles.image} src="./login_form_img.svg" alt="lock" />
+                <img className={styles.icon} src="./login_form_img.svg" alt="lock" />
                 <div className={styles.buttonsGroup}>
                     <button className={clsx(
                         styles.button,

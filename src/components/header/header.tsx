@@ -29,7 +29,6 @@ export default function Header() {
                 </nav>
 
                 <div className={styles.panelContainer}>
-                    <div></div>
                     {isLoggedIn ?
                         <>
                             <div className={styles.userInfoContainer}>

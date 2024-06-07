@@ -60,3 +60,23 @@
 .buttonNext {
     background-image: url('./arrow_right.svg');
 }
+
+@media screen and (max-width: 1350px) {
+    .carousel {
+        gap: 40px;
+        padding-top: 50px;
+        align-items: center;
+    }
+
+    .container {
+        gap: 20px;
+        max-width: 768px;
+    }
+    
+    .item {
+        gap: 19px;
+        width: 315px;
+        height: 230px;
+        padding: 17px 20px;
+    }
+}

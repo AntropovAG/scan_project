@@ -1,7 +1,10 @@
 .container {
-    display: flex;
+    display: grid;
     padding-top: 70px;
     justify-content: space-between;
+    grid-template-areas: 
+    "heading form"
+    "image form";
 }
 
 .infoWrapper {
@@ -9,16 +12,25 @@
     flex-direction: column;
     align-items: center;
     width: 800px;
-
 }
 
 .heading {
+    grid-area: heading;
     font-family: Ferry;
     font-size: 40px;
     font-weight: 900;
     line-height: 48px;
 }
+
+.image {
+    grid-area: image;
+    height: 342px;
+    object-fit: cover;
+    padding-left: 112px;
+}
+
 .formContainer {
+    grid-area: form;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,7 +41,7 @@
     position: relative;
 }
 
-.image {
+.icon {
     position: absolute;
     top: -60px;
     left: -50px;
@@ -175,3 +187,28 @@
     cursor: pointer;
 }
 
+@media screen and (max-width: 1350px) {
+    .container {
+        padding-top: 31px;
+        grid-template-areas: 
+        "heading"
+        "form"
+        "image";
+        justify-items: center;
+    }
+
+    .formContainer {
+        margin-top: 126px;
+        margin-bottom: 49px;
+    }
+
+    .image {
+        padding-left: 0;
+    }
+
+    .icon {
+        top: -75px;
+        left: 30%;
+    }
+    
+}
