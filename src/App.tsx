@@ -4,6 +4,7 @@ import Layout from './components/layout/layout';
 import Home from './components/home/home';
 import LoginForm from './components/loginForm/loginForm';
 import SearchForm from './components/searchForm/searchForm';
+import SearchResult from './components/searchResult/searchResult';
 import Footer from './components/footer/footer';
 import { Routes, Route } from 'react-router-dom';
 
@@ -16,6 +17,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path='login' element={<LoginForm />}/>
           <Route path="search" element={<SearchForm />} />
+          <Route path="result" element={<SearchResult />} />
           <Route path="tariffs" element={(<p>Тут будет подробная информация о тарифах</p>)} />
           <Route path="faq" element={(<p>Тут будет раздел с часто задаваемыми вопросами</p>)} />
           <Route path="*" element={(<p>Простите, страницы не существует</p>)} />

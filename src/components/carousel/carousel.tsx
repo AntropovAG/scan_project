@@ -3,32 +3,22 @@ import { carouselItems } from '../../utils/constants'
 import { useState } from 'react'
 
 export default function Carousel() {
-    const [startIndex, setStartIndex] = useState<number>(0)
-    const [endIndex, setEndIndex] = useState<number>(3)
+    const [startIndex, setStartIndex] = useState<number>(0);
+    const totalCarouselItems = carouselItems.length;
 
-    const displayedCarouselItems = carouselItems.slice(startIndex, endIndex); 
+    //Количество отображаемых карточек в карусели
+    const carouselItemsToDisplay = 3;
 
-    const handleNext = () => {
-        if (endIndex < carouselItems.length) {
-            setStartIndex(startIndex + 1)
-            setEndIndex(endIndex + 1)
-        }
-        if (endIndex === carouselItems.length) {
-            setStartIndex(0)
-            setEndIndex(3)
-        }
-    }
+    //Инициализируем массив карточек для отображения
+    const displayedCarouselItems = [
+        //Через slice и спрэд оператор берём карточки, которые будут отображаться в карусели
+        ...carouselItems.slice(startIndex, startIndex + carouselItemsToDisplay),
+        //Если индекс первой карточки + количество карточек для отображения больше общего количества карточек, то берём карточки с начала массива
+        ...carouselItems.slice(0, Math.max(0, startIndex + carouselItemsToDisplay - totalCarouselItems))
+    ];
 
-    const handlePrev = () => {
-        if (startIndex > 0) {
-            setStartIndex(startIndex - 1)
-            setEndIndex(endIndex - 1)
-        }
-        if (startIndex === 0) {
-            setStartIndex(carouselItems.length - 3)
-            setEndIndex(carouselItems.length)
-        }
-    }
+    const handleNext = () => setStartIndex((prevIndex) => (prevIndex + 1) % totalCarouselItems);
+    const handlePrev = () => setStartIndex((prevIndex) => (prevIndex - 1 + totalCarouselItems) % totalCarouselItems);
 
     return (
         <section className={styles.carousel}>

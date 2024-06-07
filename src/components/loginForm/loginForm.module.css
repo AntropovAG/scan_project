@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    padding: 70px 0 80px;
+    padding-top: 70px;
     justify-content: space-between;
 }
 

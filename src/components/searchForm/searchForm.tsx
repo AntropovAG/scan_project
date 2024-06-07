@@ -40,8 +40,9 @@ export default function SearchForm() {
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.inputsContainer}>
                         <div className={styles.inputGroup}>
-                            <label className={styles.label} htmlFor="inn">ИНН компании <span style={{ color: 'red' }}>*</span></label>
+                            <label className={styles.label} htmlFor="inn">ИНН компании <span className={styles.errorIndicator}>*</span></label>
                             <input className={styles.input} type="text" id="inn" name="inn" placeholder='10 цифр' required />
+                            <span className={styles.errorMessage}>Введите корректные данные</span>
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label} htmlFor="tone">Тональность</label>
@@ -52,11 +53,12 @@ export default function SearchForm() {
                             </select>
                         </div>
                         <div className={styles.inputGroup}>
-                            <label className={styles.label} htmlFor="documentNumber">Количество документов в выдаче *</label>
+                            <label className={styles.label} htmlFor="documentNumber">Количество документов в выдаче <span className={styles.errorIndicator}>*</span></label>
                             <input className={styles.input} type="text" id="documentNumber" name="documentNumber" placeholder='от 1 до 1000' required />
+                            <span className={styles.errorMessage}>Введите корректные данные</span>
                         </div>
                         <div className={styles.inputGroup}>
-                            <label className={styles.label} htmlFor="range">Диапозон поиска *</label>
+                            <label className={styles.label} htmlFor="range">Диапозон поиска <span className={styles.errorIndicator}>*</span></label>
                             <div className={styles.datesInputs}>
                                 <DatePicker
                                     className={`${styles.input} ${styles.select} ${styles.dateInput}`}
@@ -80,6 +82,7 @@ export default function SearchForm() {
                                     placeholderText='Дата конца'
                                 />
                             </div>
+                            <span className={styles.errorMessage}>Введите корректные данные</span>
                         </div>
                     </div>
                     <div className={styles.checkboxsContainer}>
