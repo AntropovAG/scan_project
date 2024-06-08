@@ -1,30 +1,12 @@
 import styles from './header.module.css'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { slide as Menu } from 'react-burger-menu'
-import './burgerMenu.css';
+import BurgerMenu from '../burgerMenu/burgerMenu';
 
-interface BurgerMenu {
-    isOpen: boolean;
-}
 
 export default function Header() {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState<boolean>(false);
     const [isMobile, setIsMobile] = useState<boolean>(innerWidth <= 745);
-
-    const handleBurgerMenu = (state:BurgerMenu) => {
-        setIsBurgerMenuOpen(state.isOpen);
-    }
-
-    const closeBurgerMenu = () => {
-        setIsBurgerMenuOpen(false);
-    }
-
-    const handleLogin = () => {
-        setIsLoggedIn(true);
-        setIsBurgerMenuOpen(false);
-    }
 
     const handleLogout = () => {
         setIsLoggedIn(false);
@@ -32,7 +14,6 @@ export default function Header() {
 
     const handleMobileSize = () => {
         setIsMobile(innerWidth <= 745);
-    
     }
 
     useEffect(() => {
@@ -82,44 +63,16 @@ export default function Header() {
                                     </div>
                                     <img className={styles.userImg} src="./photo_sample.svg" alt="user image" />
                                 </div>
-                                {isMobile && 
-                                <Menu right width={'100%'} isOpen={isBurgerMenuOpen} onStateChange={handleBurgerMenu}>
-                                    <div className={'burgerMenuLogo'}>
-                                        <img className={'image'} src="./logo_burger_menu.svg" alt="logo" />
-                                    </div>
-                                    <ul className={'burgerMenuList'} >
-                                        <li className={'burgerMenuListItem'} onClick={closeBurgerMenu}><Link className={'burgerMenuLink'} to={"/"}>Главная</Link></li>
-                                        <li className={'burgerMenuListItem'} onClick={closeBurgerMenu}><Link className={'burgerMenuLink'} to={"/tariffs"}>Тарифы</Link></li>
-                                        <li className={'burgerMenuListItem'} onClick={closeBurgerMenu}><Link className={'burgerMenuLink'} to={"/faq"}>FAQ</Link></li>
-                                    </ul>
-                                    <div className={`burgerMenuButtons`}>
-                                        <Link to={"/register"} className={'burgerMenuRegisterLink'} onClick={closeBurgerMenu}>Зарегистрироваться</Link>
-                                        <Link to={"/login"} className={'burgerMenuLoginLink'} onClick={handleLogin}>Войти</Link>
-                                    </div>
-                                </Menu>}
+                                {isMobile && <BurgerMenu />}
                             </div>
                         </> :
                         <>
                             <div className={styles.loginPanel}>
                                 <Link to={"/register"} className={`${styles.authLink} ${styles.registerLink}`}>Зарегистрироваться</Link>
                                 <div className={styles.divider}></div>
-                                <Link to={"/login"} className={styles.authLink} onClick={handleLogin}>Войти</Link>
+                                <Link to={"/login"} className={styles.authLink}>Войти</Link>
                             </div>
-                            {isMobile &&
-                            <Menu right width={'100%'} isOpen={isBurgerMenuOpen} onStateChange={handleBurgerMenu}>
-                                <div className={'burgerMenuLogo'}>
-                                    <img className={'image'} src="./logo_burger_menu.svg" alt="logo" />
-                                </div>
-                                <ul className={'burgerMenuList'}>
-                                    <li className={'burgerMenuListItem'} onClick={closeBurgerMenu}><Link className={'burgerMenuLink'} to={"/"}>Главная</Link></li>
-                                    <li className={'burgerMenuListItem'} onClick={closeBurgerMenu}><Link className={'burgerMenuLink'} to={"/tariffs"}>Тарифы</Link></li>
-                                    <li className={'burgerMenuListItem'} onClick={closeBurgerMenu}><Link className={'burgerMenuLink'} to={"/faq"}>FAQ</Link></li>
-                                </ul>
-                                <div className={`burgerMenuButtons`}>
-                                    <Link to={"/register"} className={'burgerMenuRegisterLink'} onClick={closeBurgerMenu}>Зарегистрироваться</Link>
-                                    <Link to={"/login"} className={'burgerMenuLoginLink'} onClick={handleLogin}>Войти</Link>
-                                </div>
-                            </Menu>}
+                            {isMobile && <BurgerMenu />}
                         </>}
                 </div>
             </div>
