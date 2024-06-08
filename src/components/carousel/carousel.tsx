@@ -20,7 +20,7 @@ export default function Carousel() {
 
     const handleCarouselResize = () => {
         const innerWidth = window.innerWidth;
-        if (innerWidth <= 786) {
+        if (innerWidth <= 745) {
             setDisplayedItems(1);
         } else if (innerWidth <= 1350){
             setDisplayedItems(2);

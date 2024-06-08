@@ -248,7 +248,7 @@ input[type="checkbox"]:not(:checked) {
     
     .form {
         flex-direction: column;
-        width: 768px;
+        width: 728px;
         min-height: 543px;
         padding: 40px 26px 37px 50px;
         gap: 40px;
@@ -259,7 +259,7 @@ input[type="checkbox"]:not(:checked) {
     }
     
     .documentIcon {
-        right: 60px;
+        right: 30px;
     }
 
     .foldersIcon {
