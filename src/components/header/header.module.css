@@ -95,45 +95,51 @@
 .infoPanel {
     height: 63px;
     width: 175px;
-    display: flex;
-    align-items: center;
+    display: grid;
+    align-content: center;
+    grid-template-areas: 
+    'usedText usedNumber'
+    'limitText limitNumber';
     border-radius: 5px;
     background: rgba(217, 217, 217, 0.3);
     padding: 9px;
     gap: 5px;
-}
-
-.info {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+    flex: 1;
 }
 
 .text {
-    height: 17px;
-    padding: 2px 0;
     color: rgb(0, 0, 0);
     font-size: 10px;
     font-weight: 400;
     line-height: 12px;
     letter-spacing: 0%;
     opacity: .4;
-    text-align: right;
+    justify-self: end;
+    text-wrap: nowrap;
+}
+
+.usedText {
+    grid-area: usedText;
+}
+
+.limitText {
+    grid-area: limitText;
+}
+
+.numbers {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 17px;
+    letter-spacing: 0%;
 }
 
 .used {
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 17px;
-    letter-spacing: 0%;
+    grid-area: usedNumber;
 }
 
 .limit {
+    grid-area: limitNumber;
     color: rgb(138, 197, 64);
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 17px;
-    letter-spacing: 0%;
 }
 
 .logoutGroup {
@@ -183,8 +189,12 @@
         margin: 0 auto;
     }
 
+    .infoPanel {
+        height: 75px;
+    }
+
     .userInfoContainer {
-        gap: 40px;
+        gap: 20px;
     }
 
     .navList {
@@ -194,4 +204,57 @@
     .loginPanel {
         gap: 25px;
     }
+}
+
+@media screen and (max-width: 745px) {
+    .container {
+        width: 335px;
+    }
+
+    .navigation {
+        display: none;
+    }
+
+    .loginPanel {
+        display: none;
+    }
+
+    .image {
+        width: 111px;
+        height: 111px;
+    }
+
+    .logoutGroup {
+        display: none;
+    }
+
+    .infoPanel {
+        width: 132px;
+        grid-template-areas: 
+        'usedText'
+        'usedNumber'
+        'limitText'
+        'limitNumber';
+        padding: 5px;
+        gap: 2px;
+    }
+
+    .text {
+        justify-self: start;
+    }
+    
+
+    .userInfoContainer {
+        gap: 0;
+    }
+
+    .imgContainer {
+        flex: 0;
+    }
+
+    .panelContainer {
+        justify-content: flex-start;
+        padding-left: 30px;
+    }
+    
 }
