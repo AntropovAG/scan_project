@@ -4,7 +4,7 @@ export default function Footer() {
     return (
         <footer className={styles.footer}>
             <div className={styles.container}>
-                <img src="./footer_logo.svg" alt="logo" />
+                <img className={styles.image} src="./footer_logo.svg" alt="logo" />
                 <div className={styles.infoContainer}>
                     <div className={styles.info}>
                         <p className={styles.text}>г. Москва, Цветной б-р, 40</p>

@@ -55,6 +55,8 @@
 
 .buttonPrev {
     background-image: url('./arrow_left.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .buttonNext {
@@ -78,5 +80,29 @@
         width: 315px;
         height: 230px;
         padding: 17px 20px;
+    }
+}
+
+@media screen and (max-width: 745px) {
+    .carousel {
+        gap: 24px;
+    }
+
+    .heading {
+        font-size: 28px;
+        line-height: 34px;
+        padding-right: 80px;
+    }
+
+    .container {
+        gap: 0;
+        max-width: 375px;
+    }
+    
+    .item {
+        gap: 12px;
+        width: 298px;
+        height: 238px;
+        padding: 22px 5px 30px 15px;
     }
 }

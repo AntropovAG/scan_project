@@ -21,7 +21,9 @@ export default function Home() {
 
             <Carousel />
 
-            <img className={styles.divider} src="./home_img.svg" alt="divider image" />
+            <div className={styles.divider}>
+                <img className={styles.dividerImage}  src="./home_img.svg" alt="divider image" />
+            </div>
 
             <Tariffs />
         </>
