@@ -85,6 +85,8 @@
 
 @media screen and (max-width: 745px) {
     .carousel {
+        max-width: 335px;
+        margin: 0 auto;
         gap: 24px;
     }
 

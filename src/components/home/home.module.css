@@ -86,6 +86,11 @@
 }
 
 @media screen and (max-width: 745px) {
+    .intro {
+        max-width: 335px;
+        margin: 0 auto;
+    }
+
     .heading {
         padding-top: 30px;
         font-size: 28px;

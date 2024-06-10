@@ -88,7 +88,7 @@
     border: 1px solid rgb(199, 199, 199);
     border-radius: 5px;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
-    padding: 13px 17px;
+    padding: 13px 22px;
 }
 
 input::placeholder {
@@ -284,4 +284,85 @@ input[type="checkbox"]:not(:checked) {
     .buttonGroup {
         align-self: center;
     }
+}
+
+@media screen and (max-width: 745px) {
+    .container {
+        align-items: start;
+    }
+
+    .headingContainer {
+        width: 335px;
+        margin: 0 auto;
+        gap: 20px;
+    }
+    
+    .heading {
+        max-width: 335px;
+        font-size: 28px;
+        line-height: 34px;
+    }
+
+    .text {
+        max-width: 297px;
+        font-size: 18px;
+        line-height: 22px;
+    }
+
+    .documentIcon {
+        width: 58px;
+        height: 71px;
+        bottom: 50px;
+        right: 20px;
+    }
+    
+    .formWrapper {
+        width: 375px;
+    }
+    
+    .form {
+        width: 375px;
+        min-height: 688px;
+        padding: 24px 26px 37px 14px;
+    }
+    
+    .inputsContainer {
+        width: 335px;
+        gap: 15px;
+    }
+    
+    .input {
+        width: 100%;
+    }
+    
+    .datesInputs {
+        flex-direction: column;
+    }
+    
+    .dateInput {
+        width: 100%;
+    }
+    
+    .buttonGroup {
+        width: 335px;
+    }
+    
+    .submitButton {
+        font-size: 20px;
+        line-height: 24px;
+        padding-top: 17px;
+        padding-bottom: 18px;
+    }
+    
+    .imageContainer {
+        width: 375px;
+        height: 403px;
+    }
+
+    .image {
+        width: 379px;
+        height: 403px;
+        transform: translateX(40px);
+    }
+    
 }

@@ -169,7 +169,7 @@
     border-radius: 10px;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
     background: rgb(255, 255, 255);
-    padding: 30px 19px;
+    padding: 19px 30px;
 }
 
 .documentInfoContainer {
@@ -292,5 +292,156 @@
         padding: 0;
         justify-content: center;
         row-gap: 20px;
+    }
+}
+
+@media screen and (max-width: 745px) {
+    .container {
+        width: 375px;
+        margin: 0 auto;
+        padding-top: 20px;
+    }
+    
+    .headingContainer {
+        width: 344px;
+        margin: 0 auto;
+    }
+
+    .heading {
+        font-size: 28px;
+        line-height: 34px;
+        max-width: 344px;
+    }
+    
+    .text {
+        font-size: 18px;
+        line-height: 22px;
+        max-width: 344px;
+    }
+
+    .infoContainer {
+        padding-top: 60px;
+    }
+
+    .infoHeading {
+        width: 335px;
+        margin: 0 auto;
+        font-size: 28px;
+        line-height: 34px;
+        padding-bottom: 6px;
+    }
+    
+    .infoText {
+        width: 335px;
+        margin: 0 auto;
+        padding-bottom: 34px;
+    }
+
+    .sliderContainer {
+        width: 298px;
+        height: 140px;
+        flex-direction: column;
+    }
+
+    .sliderTitleContainer {
+        flex-direction: row;
+        width: 294px;
+        height: 73px;
+        border-radius: 5px 5px 0 0;
+        padding: 23px 8px 24px 15px;
+        gap: 20px;
+        }
+    
+    .sliderTitle {
+        font-size: 18px;
+        line-height: 22px;
+    }
+
+    .sliderTitle:first-of-type {
+        padding-right: 30px;
+    }
+    
+    .resultItem {
+        flex-direction: row;
+        height: 65px;
+        min-width: 298px;
+        justify-content: flex-start;
+        padding: 23px 8px 24px 15px;
+        gap: 50px;
+    }
+    
+    .resultText{
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 22px;
+    }
+
+    .resultText:nth-of-type(2) {
+        padding-right: 10px;
+    }
+
+    .documentsListHeading {
+        width: 335px;
+        margin: 0 auto;
+        font-size: 28px;
+        line-height: 34px;
+    }
+
+    .documentsList {
+        grid-template-columns: 335px;
+        grid-auto-rows: 710px;
+    }    
+    
+    .documentsListItem {
+        padding-left: 24px;
+        padding-right: 14px;
+    }
+    
+    .documentInfoContainer {
+        gap: 9px;
+    }
+    
+    .documentText {
+        font-size: 14px;
+        line-height: 17px;
+    }
+    
+    .documentHeading {
+        font-size: 19px;
+        line-height: 23px;
+        padding-top: 21px;
+        padding-bottom: 6px;
+    }
+    
+    .documentType {
+        min-width: 132px;
+        font-size: 10px;
+        line-height: 12px;
+    }
+    
+    .documentDescription {
+        width: 290px;
+        min-height: 255px;
+        padding-top: 18px;
+    }
+    
+    .documentButtonContainer {
+        margin-top: auto;
+    }
+    
+    .documentButton {
+        width: 195px;
+        font-size: 17px;
+        line-height: 17px;
+        padding: 12px;
+    }
+    
+    .button {
+        width: 335px;
+        padding-top: 17px;
+        padding-bottom: 18px;
+        font-size: 20px;
+        line-height: 24px;
+        margin: 0 auto;
     }
 }

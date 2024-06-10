@@ -69,11 +69,30 @@ export default function SearchResult() {
     const sliderRef = useRef<HTMLDivElement>(null);
     const [scrollableToPrev, setscrollableToPrev] = useState<boolean>(false);
     const [scrollableToNext, setscrollableToNext] = useState<boolean>(true);
+    const [scrollAmount, setScrollAmount] = useState<number>(266);
+
+    const handleSliderScrollResize = () => {
+        const innerWidth = window.innerWidth;
+        if (innerWidth <= 745) {
+            setScrollAmount(298);
+        } else {
+            setScrollAmount(266);
+        }
+    };
+
+    useEffect(() => {
+        handleSliderScrollResize();
+
+        window.addEventListener('resize', handleSliderScrollResize);
+
+        return () => {
+            window.removeEventListener('resize', handleSliderScrollResize);
+        }
+    }, []);
 
 
     // Добавляем листенер для возможности скролла слайдера
     useEffect(() => {
-
         const handleScroll = () => {
             if (sliderRef.current) {
                 const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
@@ -100,13 +119,13 @@ export default function SearchResult() {
 
     const scrollNext = () => {
         if (sliderRef.current) {
-            sliderRef.current.scrollBy({ left: 266, behavior: 'smooth' });
+            sliderRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
     };
 
     const scrollPrev = () => {
         if (sliderRef.current) {
-            sliderRef.current.scrollBy({ left: -266, behavior: 'smooth' });
+            sliderRef.current.scrollBy({ left: -(scrollAmount), behavior: 'smooth' });
         }
     };
 

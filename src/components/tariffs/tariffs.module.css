@@ -214,6 +214,7 @@
 @media screen and (max-width: 745px) {
     .tariffs {
         max-width: 335px;
+        margin: 0 auto;
     }
 
     .heading {
