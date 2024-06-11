@@ -2,30 +2,128 @@ import styles from './searchForm.module.css'
 import { useState, useEffect } from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { formatDate } from '../../utils/supportFunctions';
+import { formatDate, validateInnNumber } from '../../utils/supportFunctions';
+import { NumberFormatValues, PatternFormat } from 'react-number-format';
+import clsx from 'clsx';
 
+interface ErrorMessage {
+    error: boolean;
+    message: string;
+}
+
+interface ErrorStates {
+    inn: ErrorMessage;
+    documentNumber: ErrorMessage;
+    dates: ErrorMessage;
+}
 
 export default function SearchForm() {
     const [startDate, setStartDate] = useState<null | Date>(null);
     const [endDate, setEndDate] = useState<null | Date>(null);
-    const [isValid, setIsValid] = useState(false);
+    const [inn, setInn] = useState('');
+    const [innIsValid, setInnIsValid] = useState<boolean>(false);
+    const [documentNumberIsValid, setDocumentNumberIsValid] = useState<boolean>(false);
+    const [datesAreValid, setDatesAreValid] = useState<boolean>(false);
+    const [formIsValid, setFormIsValid] = useState(false);
+    const [errorStates, setErrorStates] = useState<ErrorStates>({
+        inn: { error: false, message: '' },
+        documentNumber: { error: false, message: '' },
+        dates: { error: false, message: '' }
+    });
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget);
+        formData.append('inn', inn)
         formData.append('startDate', formatDate(startDate));
         formData.append('endDate', formatDate(endDate));
         const data = Object.fromEntries(formData.entries());
         console.log(data);
     }
 
-    useEffect(() => {
-        if (startDate && endDate) {
-            setIsValid(true);
-        } else {
-            setIsValid(false);
+    const validateInn = (value: string) => {
+        const isValid = validateInnNumber(value);
+        setInnIsValid(isValid);
+        if (!isValid) {
+            setErrorStates(prevState => ({ ...prevState, inn: {
+                error: true,
+                message: 'Введите корректные данные'
+            
+            }}));
         }
-    }, [startDate, endDate])
+        else {
+            setErrorStates(prevState => ({ ...prevState, inn: {
+                error: false,
+                message: ''
+            
+            }}));
+        }
+    } 
+
+    const validateDocumentNumber = (value: string) => {
+        const isValid = parseInt(value) > 0 && parseInt(value) <= 1000;
+        setDocumentNumberIsValid(isValid);
+        if (!isValid) {
+            setErrorStates(prevState => ({ ...prevState, documentNumber: {
+                error: true,
+                message: 'Введите корректные данные'
+            
+            }}));
+        }
+        else {
+            setErrorStates(prevState => ({ ...prevState, documentNumber: {
+                error: false,
+                message: ''
+            
+            }}));
+        }
+    }
+
+    const validateDates = (startDate: Date | null, endDate: Date | null) => {
+        const currentDate = new Date();
+        const isValid = (startDate && endDate) ? (startDate <= endDate && endDate <= currentDate) : false;
+        setDatesAreValid(isValid);
+        if (!isValid) {
+            setErrorStates(prevState => ({ ...prevState, dates: {
+                error: true,
+                message: 'Введите корректные данные'
+            
+            }}));
+        }
+        else {
+            setErrorStates(prevState => ({ ...prevState, dates: {
+                error: false,
+                message: ''
+            
+            }}));
+        }
+    }
+
+    const handleInnChange = (values: NumberFormatValues) => {
+        const { value } = values;
+        setInn(value);
+        validateInn(value);
+    }
+
+    const handleDocumentNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = e.target;
+        validateDocumentNumber(value);
+    }
+
+    const handleStartDateChange = (date: Date | null) => {
+        setStartDate(date);
+        if (endDate) validateDates(date, endDate);
+    };
+
+    const handleEndDateChange = (date: Date | null) => {
+        setEndDate(date);
+        if (startDate) validateDates(startDate, date);
+    };
+
+    useEffect(() => {
+        console.log('datesAreValid', datesAreValid)
+        setFormIsValid(innIsValid && documentNumberIsValid && datesAreValid);
+    }, [innIsValid, documentNumberIsValid, datesAreValid]);
 
 
     return (
@@ -40,9 +138,9 @@ export default function SearchForm() {
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.inputsContainer}>
                         <div className={styles.inputGroup}>
-                            <label className={styles.label} htmlFor="inn">ИНН компании <span className={styles.errorIndicator}>*</span></label>
-                            <input className={styles.input} type="text" id="inn" name="inn" placeholder='10 цифр' required />
-                            <span className={styles.errorMessage}>Введите корректные данные</span>
+                            <label className={styles.label} htmlFor="inn">ИНН компании <span className={clsx({[styles.errorIndicator]: errorStates.inn.error})}>*</span></label>
+                            <PatternFormat format='## ### ### ##' className={clsx(styles.input, {[styles.errorInput]: errorStates.inn.error})} type="text" id="inn" name="inn" placeholder='10 цифр' onValueChange={(values) => handleInnChange(values)} required />
+                            <span className={styles.errorMessage}>{errorStates.inn.message}</span>
                         </div>
                         <div className={styles.inputGroup}>
                             <label className={styles.label} htmlFor="tone">Тональность</label>
@@ -53,17 +151,18 @@ export default function SearchForm() {
                             </select>
                         </div>
                         <div className={styles.inputGroup}>
-                            <label className={styles.label} htmlFor="documentNumber">Количество документов в выдаче <span className={styles.errorIndicator}>*</span></label>
-                            <input className={styles.input} type="text" id="documentNumber" name="documentNumber" placeholder='от 1 до 1000' required />
-                            <span className={styles.errorMessage}>Введите корректные данные</span>
+                            <label className={styles.label} htmlFor="documentNumber">Количество документов в выдаче <span className={clsx({[styles.errorIndicator]: errorStates.documentNumber.error})}>*</span></label>
+                            <input className={clsx(styles.input, {[styles.errorInput]: errorStates.documentNumber.error})} type="text" id="documentNumber" name="documentNumber" placeholder='от 1 до 1000' onChange={handleDocumentNumberChange} required />
+                            <span className={styles.errorMessage}>{errorStates.documentNumber.message}</span>
                         </div>
                         <div className={styles.inputGroup}>
-                            <label className={styles.label} htmlFor="range">Диапозон поиска <span className={styles.errorIndicator}>*</span></label>
+                            <label className={styles.label} htmlFor="range">Диапозон поиска <span className={clsx({[styles.errorIndicator]: errorStates.dates.error})}>*</span></label>
                             <div className={styles.datesInputs}>
                                 <DatePicker
-                                    className={`${styles.input} ${styles.select} ${styles.dateInput}`}
+                                    className={clsx(`${styles.input} ${styles.select} ${styles.dateInput}`, {[styles.errorInput]: errorStates.dates.error})}
+                                    name='startDate'
                                     selected={startDate}
-                                    onChange={(date) => setStartDate(date)}
+                                    onChange={(date) => handleStartDateChange(date)}
                                     selectsStart
                                     startDate={startDate}
                                     endDate={endDate}
@@ -71,10 +170,11 @@ export default function SearchForm() {
                                     placeholderText='Дата начала'
                                 />
                                 <DatePicker
-                                    className={`${styles.input} ${styles.select} ${styles.dateInput}`}
+                                    className={clsx(`${styles.input} ${styles.select} ${styles.dateInput}`, {[styles.errorInput]: errorStates.dates.error})}
+                                    name='endDate'
                                     dateFormat='yyyy-MM-dd'
                                     selected={endDate}
-                                    onChange={(date) => setEndDate(date)}
+                                    onChange={(date) => handleEndDateChange(date)}
                                     selectsEnd
                                     startDate={startDate}
                                     endDate={endDate}
@@ -82,7 +182,7 @@ export default function SearchForm() {
                                     placeholderText='Дата конца'
                                 />
                             </div>
-                            <span className={styles.errorMessage}>Введите корректные данные</span>
+                            <span className={styles.errorMessage}>{errorStates.dates.message}</span>
                         </div>
                     </div>
                     <div className={styles.checkboxsContainer}>
@@ -117,7 +217,7 @@ export default function SearchForm() {
                             </li>
                         </ul>
                         <div className={styles.buttonGroup}>
-                            <button className={styles.submitButton} type="submit" disabled={!isValid}>Поиск</button>
+                            <button className={styles.submitButton} type="submit" disabled={!formIsValid}>Поиск</button>
                             <p className={styles.disclaimerText}>* Обязательные к заполнению поля</p>
                         </div>
 

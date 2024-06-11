@@ -33,6 +33,7 @@ export default function LoginForm() {
     }
 
     const validateLogin = (value: string) => {
+        //Если вводится телефон (проверка на наличие цифр и длину), то форматируем его в вид +7 XXX XXX XX XX
         if (isPhoneNumber(value)) {
             if (value.length > 1 && !value.startsWith('+7')) {
                 value = `+7${value.replace(/^\+?7?/, '')}`;
@@ -44,6 +45,7 @@ export default function LoginForm() {
             }
             setLoginValue(formatPhoneNumber(value));
         } else {
+            //в противном случае не форматируем введённые данные под телефон
             setLoginError({ error: false, message: '' });
             setLoginValue(value);
         }
