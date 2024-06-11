@@ -1,6 +1,7 @@
 import styles from './loginForm.module.css'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { formatPhoneNumber, isPhoneNumber, isValidPhoneNumber } from '../../utils/supportFunctions';
 import clsx from 'clsx';
 
 export default function LoginForm() {
@@ -9,6 +10,15 @@ export default function LoginForm() {
     const [loginData, setLoginData] = useState({
         login: '',
         password: ''
+    });
+    const [loginValue, setLoginValue] = useState('');
+    const [loginError, setLoginError] = useState({
+        error: false,
+        message: ''
+    });
+    const [passwordError, setPasswordError] = useState({
+        error: false,
+        message: ''
     });
 
     const handleButtonChange = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -22,20 +32,49 @@ export default function LoginForm() {
         console.log(data)
     }
 
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const input = e.currentTarget;
-        const name = input.name;
-        const value = input.value;
-        setLoginData({ ...loginData, [name]: value });
+    const validateLogin = (value: string) => {
+        if (isPhoneNumber(value)) {
+            if (value.length > 1 && !value.startsWith('+7')) {
+                value = `+7${value.replace(/^\+?7?/, '')}`;
+            }
+            if (value.replace(/\s/g, '').length > 12 || !isValidPhoneNumber(value)) {
+                setLoginError({ error: true, message: 'Введите корректные данные' });
+            } else {
+                setLoginError({ error: false, message: '' });
+            }
+            setLoginValue(formatPhoneNumber(value));
+        } else {
+            setLoginError({ error: false, message: '' });
+            setLoginValue(value);
+        }
+        return value.replace(/\s/g, '');
     }
 
-    useEffect(() => {
-        if (loginData.login.length > 0 && loginData.password.length > 0) {
-            setIsValid(true);
+    const validatePassword = (value: string) => {
+        if (value.length < 1) {
+            setPasswordError({ error: true, message: 'Неправильный пароль' });
         } else {
-            setIsValid(false);
+            setPasswordError({ error: false, message: '' });
         }
-    }, [loginData])
+        return value;
+    }
+
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.currentTarget;
+
+        let updatedValue = value;
+        if (name === 'login') {
+            updatedValue = validateLogin(value);
+        } else if (name === 'password') {
+            updatedValue = validatePassword(value);
+        }
+
+        setLoginData({ ...loginData, [name]: updatedValue });
+    };
+
+    useEffect(() => {
+        setIsValid(loginData.login.length > 0 && loginData.password.length > 0 && !loginError.error && !passwordError.error);
+    }, [loginData, loginError, passwordError]);
 
     return (
         <section className={styles.container}>
@@ -58,11 +97,11 @@ export default function LoginForm() {
                 {activeButton === 'loginButton' ? (<>
                     <form className={styles.form} onSubmit={handleFormSubmit}>
                         <label className={styles.label} htmlFor="login">Логин или номер телефона:</label>
-                        <input className={styles.input} type="text" id="login" name="login" onChange={handleOnChange} required />
-                        <span className={styles.error}></span>
+                        <input className={clsx(styles.input, { [styles.errorInput]: loginError.error === true })} type="text" id="login" name="login" onChange={handleOnChange} value={loginValue} required />
+                        <span className={styles.errorText}>{loginError.message}</span>
                         <label className={styles.label} htmlFor="password">Пароль:</label>
-                        <input className={styles.input} type="password" id="password" name="password" onChange={handleOnChange} required />
-                        <span className={styles.error}></span>
+                        <input className={clsx(styles.input, { [styles.errorInput]: passwordError.error === true })} type="password" id="password" name="password" onChange={handleOnChange} required />
+                        <span className={styles.errorText}>{passwordError.message}</span>
                         <button className={styles.submitButton} type="submit" disabled={!isValid}>Войти</button>
                     </form>
                     <Link className={styles.restoreLink} to={"/restore"}>Восстановить пароль</Link>
