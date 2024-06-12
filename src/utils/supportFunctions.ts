@@ -56,4 +56,13 @@ export const validateInnNumber = (inn: string | number): boolean => {
         }
     }
     return result;
-}
+};
+
+export const getAccessToken = (): string | null => {
+    const tokenData = localStorage.getItem("tokenData");
+    if (tokenData) {
+        const { accessToken } = JSON.parse(tokenData);
+        return accessToken;
+    }
+    return null;
+};

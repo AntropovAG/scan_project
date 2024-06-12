@@ -2,6 +2,9 @@ import './burgerMenu.css';
 import { slide as Menu } from 'react-burger-menu'
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useAppSelector, useAppDispatch } from '../../utils/hooks';
+import { logout } from '../../redux/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 interface BurgerMenu {
     isOpen: boolean;
@@ -9,8 +12,16 @@ interface BurgerMenu {
 
 export default function BurgerMenu() {
     const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState<boolean>(false);
+    const isAuthorized = useAppSelector(state => state.user.isAuthorized);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
-    const handleBurgerMenu = (state:BurgerMenu) => {
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate('/');
+    }
+
+    const handleBurgerMenu = (state: BurgerMenu) => {
         setIsBurgerMenuOpen(state.isOpen);
     }
 
@@ -28,8 +39,12 @@ export default function BurgerMenu() {
                 <li className={'burgerMenuListItem'} onClick={closeBurgerMenu}><Link className={'burgerMenuLink'} to={"/faq"}>FAQ</Link></li>
             </ul>
             <div className={`burgerMenuButtons`}>
-                <Link to={"/register"} className={'burgerMenuRegisterLink'} onClick={closeBurgerMenu}>Зарегистрироваться</Link>
-                <Link to={"/login"} className={'burgerMenuLoginLink'} onClick={closeBurgerMenu}>Войти</Link>
+                {isAuthorized ?
+                    <button className={'logoutButton'} onClick={handleLogout}>Выйти</button> :
+                    <>
+                        <Link to={"/register"} className={'burgerMenuRegisterLink'} onClick={closeBurgerMenu}>Зарегистрироваться</Link>
+                        <Link to={"/login"} className={'burgerMenuLoginLink'} onClick={closeBurgerMenu}>Войти</Link>
+                    </>}
             </div>
         </Menu>
     )

@@ -70,3 +70,10 @@ export const tariffs = [
         color: 'black'
     },
 ];
+
+export const BASE_URL = 'https://gateway.scan-interfax.ru';
+
+export const userData = {
+    name: 'Антон А.',
+    img: './photo_sample.svg'
+}

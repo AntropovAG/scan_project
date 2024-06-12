@@ -2,29 +2,45 @@ import styles from './header.module.css'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import BurgerMenu from '../burgerMenu/burgerMenu';
+import { useAppSelector, useAppDispatch } from '../../utils/hooks';
+import { logout, getUserInfo } from '../../redux/userSlice';
+import { useNavigate } from 'react-router-dom';
+import Spinner from '../spinner/spinner';
+import { userData } from '../../utils/constants';
 
 
 export default function Header() {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [isMobile, setIsMobile] = useState<boolean>(innerWidth <= 745);
-
-    const handleLogout = () => {
-        setIsLoggedIn(false);
-    }
+    const dispatch = useAppDispatch();
+    const isAuthorized = useAppSelector(state => state.user.isAuthorized);
+    const isLoading = useAppSelector(state => state.user.isLoading);
+    const userInfo = useAppSelector(state => state.user.userInfo);
+    const navigate = useNavigate();
 
     const handleMobileSize = () => {
         setIsMobile(innerWidth <= 745);
     }
 
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate('/');
+    }
+
     useEffect(() => {
         handleMobileSize();
-    
+
         window.addEventListener('resize', handleMobileSize);
-    
+
         return () => {
             window.removeEventListener('resize', handleMobileSize);
         }
     }, []);
+
+    useEffect(() => {
+        if (isAuthorized) {
+            dispatch(getUserInfo());
+        }
+    }, [isAuthorized, dispatch]);
 
     return (
         <header className={styles.header}>
@@ -43,25 +59,25 @@ export default function Header() {
                 </nav>
 
                 <div className={styles.panelContainer}>
-                    {isLoggedIn ?
+                    {isAuthorized ?
                         <>
                             <div className={styles.userInfoContainer}>
                                 <div className={styles.infoPanel}>
-                                    {/* <div className={styles.info}> */}
-                                        <p className={`${styles.text} ${styles.usedText}`}>Использовано компаний</p>
-                                        <p className={`${styles.text} ${styles.limitText}`}>Лимит по компаниям</p>
-                                    {/* </div> */}
-                                    {/* <div className={styles.info}> */}
-                                        <p className={`${styles.numbers} ${styles.used}`}>34</p>
-                                        <p className={`${styles.numbers} ${styles.limit}`}>100</p>
-                                    {/* </div> */}
+                                    {isLoading ? <Spinner /> :
+                                        <>
+                                            <p className={`${styles.text} ${styles.usedText}`}>Использовано компаний</p>
+                                            <p className={`${styles.text} ${styles.limitText}`}>Лимит по компаниям</p>
+                                            <p className={`${styles.numbers} ${styles.used}`}>{userInfo.usedCompanyCount}</p>
+                                            <p className={`${styles.numbers} ${styles.limit}`}>{userInfo.companyLimit}</p>
+                                        </>
+                                    }
                                 </div>
                                 <div className={styles.logoutGroup}>
                                     <div className={styles.wrapper}>
-                                        <p className={styles.username}>Антон А.</p>
+                                        <p className={styles.username}>{userData.name}</p>
                                         <button className={styles.logoutButton} onClick={handleLogout}>Выйти</button>
                                     </div>
-                                    <img className={styles.userImg} src="./photo_sample.svg" alt="user image" />
+                                    <img className={styles.userImg} src={userData.img} alt="user image" />
                                 </div>
                                 {isMobile && <BurgerMenu />}
                             </div>

@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { formatPhoneNumber, isPhoneNumber, isValidPhoneNumber } from '../../utils/supportFunctions';
 import clsx from 'clsx';
+import { loginUser } from '../../redux/userSlice';
+import { useAppDispatch, useAppSelector } from '../../utils/hooks';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginForm() {
     const [activeButton, setActiveButton] = useState('loginButton');
@@ -20,6 +23,10 @@ export default function LoginForm() {
         error: false,
         message: ''
     });
+    const dispatch = useAppDispatch();
+    const isAuthorized = useAppSelector(state => state.user.isAuthorized);
+    const navigate = useNavigate();
+
 
     const handleButtonChange = (e: React.MouseEvent<HTMLButtonElement>) => {
         setActiveButton(e.currentTarget.id);
@@ -28,8 +35,13 @@ export default function LoginForm() {
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData.entries());
-        console.log(data)
+        const data: {login: string, password: string} = 
+        {
+            login: formData.get('login') as string,
+            password: formData.get('password') as string
+        };
+        console.log(data);
+        dispatch(loginUser(data));
     }
 
     const validateLogin = (value: string) => {
@@ -77,6 +89,13 @@ export default function LoginForm() {
     useEffect(() => {
         setIsValid(loginData.login.length > 0 && loginData.password.length > 0 && !loginError.error && !passwordError.error);
     }, [loginData, loginError, passwordError]);
+
+
+    useEffect(() => {
+        if (isAuthorized) {
+            navigate('/');
+        }
+    }, [isAuthorized, navigate]);
 
     return (
         <section className={styles.container}>

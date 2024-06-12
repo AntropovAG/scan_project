@@ -12,4 +12,5 @@
     width: 24px;
     height: 24px;
     animation: spinner 2s linear infinite;
+    justify-self: end;
 }
