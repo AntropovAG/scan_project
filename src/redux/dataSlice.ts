@@ -182,7 +182,7 @@ export const fetchArticles = createAsyncThunk(
                     url: article.url,
                 };
             });
-
+            console.log(result);
             return formattedArticles;
         } catch (error: any) {
             return rejectWithValue(error.message);

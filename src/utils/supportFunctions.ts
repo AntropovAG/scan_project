@@ -66,3 +66,12 @@ export const getAccessToken = (): string | null => {
     }
     return null;
 };
+
+export const parceText = (textData: string) => {
+    const xml = textData;
+    const div = document.createElement("div");
+    div.innerHTML = xml;
+    const text = div.textContent || div.innerText || "";
+
+    return text.replace(/<\/*?["^"]*["^"]*[^>]*>(>|\$)/g, "");
+};

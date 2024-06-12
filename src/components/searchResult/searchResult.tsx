@@ -139,7 +139,6 @@ export default function SearchResult() {
                 <h2 className={styles.documentsListHeading}>Список документов</h2>
                 <ul className={styles.documentsList}>
                     {articles.map((item, index) => {
-                        console.log(item)
                         return (
                             <li key={index}>
                                 <ListItem data={item}/>

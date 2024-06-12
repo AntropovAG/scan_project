@@ -1,6 +1,7 @@
 import styles from './listItem.module.css';
 import { formatDate } from '../../utils/supportFunctions';
 import { Link } from 'react-router-dom';
+import { parceText } from '../../utils/supportFunctions';
 
 interface ListItemProps {
     data: {
@@ -22,6 +23,7 @@ export default function ListItem({data}: ListItemProps) {
     const { attributes, date, source, text, title, url} = data;
 
 
+    const parsedText = parceText(text);
     return (
         <div className={styles.documentsListItem}>
             <div className={styles.documentInfoContainer}>
@@ -34,9 +36,8 @@ export default function ListItem({data}: ListItemProps) {
                 {attributes.isAnnouncement && <p className={styles.documentType}>Анонс</p>}
                 {attributes.isTechNews && <p className={styles.documentType}>Технические новости</p>}
             </div>
-            <div dangerouslySetInnerHTML={{__html: text}} />
-            {/* <img src="./card_img.svg" alt="document image" />
-            <p className={`${styles.documentText} ${styles.documentDescription}`}>{text}</p> */}
+            <img src="./card_img.svg" alt="document image" />
+            <p className={`${styles.documentText} ${styles.documentDescription}`} dangerouslySetInnerHTML={{__html: parsedText}}></p>
             <div className={styles.documentButtonContainer}>
                 <Link to={url} target='_blank' className={styles.documentButton}>Читать в источнике</Link>
                 <p className={styles.documentText}>{attributes.wordCount} слова</p>
