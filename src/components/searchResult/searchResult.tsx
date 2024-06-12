@@ -1,76 +1,44 @@
 import styles from './searchResult.module.css';
 import { useRef, useState, useEffect } from 'react';
 import ListItem from '../listItem/listItem';
-
-const mockData = [
-    {
-        date: '10.09.2021',
-        total: 5,
-        risks: 0
-    },
-    {
-        date: '10.09.2021',
-        total: 5,
-        risks: 0
-    },
-    {
-        date: '10.09.2021',
-        total: 5,
-        risks: 0
-    },
-    {
-        date: '10.09.2021',
-        total: 5,
-        risks: 0
-    },
-    {
-        date: '10.09.2021',
-        total: 5,
-        risks: 0
-    },
-    {
-        date: '10.09.2021',
-        total: 5,
-        risks: 0
-    },
-    {
-        date: '10.09.2021',
-        total: 5,
-        risks: 0
-    },
-    {
-        date: '10.09.2021',
-        total: 5,
-        risks: 0
-    },
-    {
-        date: '10.09.2021',
-        total: 5,
-        risks: 0
-    },
-    {
-        date: '10.09.2021',
-        total: 5,
-        risks: 0
-    },
-    {
-        date: '10.09.2021',
-        total: 5,
-        risks: 0
-    },
-    {
-        date: '10.09.2021',
-        total: 5,
-        risks: 0
-    }
-
-]
+import { useAppSelector, useAppDispatch } from '../../utils/hooks';
+import { formatDate } from '../../utils/supportFunctions';
+import Spinner from '../spinner/spinner';
+import { fetchArticles } from '../../redux/dataSlice';
 
 export default function SearchResult() {
     const sliderRef = useRef<HTMLDivElement>(null);
     const [scrollableToPrev, setscrollableToPrev] = useState<boolean>(false);
     const [scrollableToNext, setscrollableToNext] = useState<boolean>(true);
     const [scrollAmount, setScrollAmount] = useState<number>(266);
+    const [currentIndex, setCurrentIndex] = useState<number>(0);
+    const [isButtonDisplayed, setIsButtonDisplayed] = useState<boolean>(true);
+    const dispatch = useAppDispatch();
+    const overviewData = useAppSelector(state => state.data.overviewData);
+    const overviewIsLoading = useAppSelector(state => state.data.overviewIsLoading);
+    const iDsList = useAppSelector(state => state.data.ids);
+    const articles = useAppSelector(state => state.data.articles);
+
+    useEffect(() => {
+        if (iDsList.length <= 10) {
+            dispatch(fetchArticles({ids: iDsList}));
+            setIsButtonDisplayed(false);
+        }
+        if (iDsList.length > 10) {
+            dispatch(fetchArticles({ids: iDsList.slice(0, 10)}));
+            setCurrentIndex(10);
+        }
+    }, []);
+
+    const handleLoadMore = () => {
+        const updatedIndex = currentIndex + 10;
+        const updatedList = iDsList.slice(currentIndex, updatedIndex);
+        if (updatedList.length < 10) {
+            setIsButtonDisplayed(false);
+        }
+        dispatch(fetchArticles({ids: updatedList}));
+        setCurrentIndex(updatedIndex);
+    }
 
     const handleSliderScrollResize = () => {
         const innerWidth = window.innerWidth;
@@ -152,12 +120,14 @@ export default function SearchResult() {
                         <h3 className={styles.sliderTitle}>Риски</h3>
                     </div>
                     <div className={styles.slider} ref={sliderRef}>
-                        {mockData.map((item, index) => {
+                        {overviewIsLoading && <Spinner isBig={true} />}
+                        {!overviewData || overviewData.length === 0 ? <p className={styles.resultText}>Нет данных</p> : 
+                        overviewData.map((item, index) => {
                             return (
                                 <div className={styles.resultItem} key={index}>
-                                    <p className={styles.resultText}>{item.date}</p>
-                                    <p className={styles.resultText}>{item.total}</p>
-                                    <p className={styles.resultText}>{item.risks}</p>
+                                    <p className={styles.resultText}>{formatDate(item.date)}</p>
+                                    <p className={styles.resultText}>{item.documentsCount}</p>
+                                    <p className={styles.resultText}>{item.riskCount}</p>
                                 </div>
                             )
                         })}
@@ -168,14 +138,16 @@ export default function SearchResult() {
             <article className={styles.documentsListContainer}>
                 <h2 className={styles.documentsListHeading}>Список документов</h2>
                 <ul className={styles.documentsList}>
-                    <li>
-                        <ListItem />
-                    </li>
-                    <li>
-                        <ListItem />
-                    </li>
+                    {articles.map((item, index) => {
+                        console.log(item)
+                        return (
+                            <li key={index}>
+                                <ListItem data={item}/>
+                            </li>
+                        )
+                    })}
                 </ul>
-                <button className={styles.button}>Показать ещё</button>
+                {isButtonDisplayed && <button className={styles.button} onClick={handleLoadMore}>Показать ещё</button>}
             </article>
         </section>
     )

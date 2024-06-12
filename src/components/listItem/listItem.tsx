@@ -1,21 +1,45 @@
 import styles from './listItem.module.css';
+import { formatDate } from '../../utils/supportFunctions';
+import { Link } from 'react-router-dom';
 
-export default function ListItem() {
+interface ListItemProps {
+    data: {
+        attributes: {
+            wordCount: number,
+            isDigest: boolean,
+            isTechNews: boolean,
+            isAnnouncement: boolean,
+        },
+        date: string,
+        source: string,
+        text: string,
+        title: string,
+        url: string
+    }
+}
+
+export default function ListItem({data}: ListItemProps) {
+    const { attributes, date, source, text, title, url} = data;
+
+
     return (
         <div className={styles.documentsListItem}>
             <div className={styles.documentInfoContainer}>
-                <p className={styles.documentText}>01.01.2020</p>
-                <a href='#' className={`${styles.documentText} ${styles.documentLink}`}>Комсомольская правда KP.RU</a>
+                <p className={styles.documentText}>{formatDate(date)}</p>
+                <a href='#' className={`${styles.documentText} ${styles.documentLink}`}>{source}</a>
             </div>
-            <h3 className={styles.documentHeading}>Скиллфэктори - лучшая онлайн-школа для будущих айтишников</h3>
+            <h3 className={styles.documentHeading}>{title}</h3>
             <div className={styles.documentTypeContainer}>
-                <p className={styles.documentType}>Технические новости</p>
+                {attributes.isDigest && <p className={styles.documentType}>Дайджест</p>}
+                {attributes.isAnnouncement && <p className={styles.documentType}>Анонс</p>}
+                {attributes.isTechNews && <p className={styles.documentType}>Технические новости</p>}
             </div>
-            <img src="./card_img.svg" alt="document image" />
-            <p className={`${styles.documentText} ${styles.documentDescription}`}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Impedit eum iure non eaque dolore laborum, dignissimos iste autem quisquam, quidem asperiores provident earum minima quae maxime quibusdam. Perspiciatis, fugiat eius. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora, repudiandae adipisci dolores quasi pariatur natus doloribus nemo! Impedit asperiores soluta minima, ipsa corrupti dolorem rem reiciendis, cum, molestias eum eos?</p>
+            <div dangerouslySetInnerHTML={{__html: text}} />
+            {/* <img src="./card_img.svg" alt="document image" />
+            <p className={`${styles.documentText} ${styles.documentDescription}`}>{text}</p> */}
             <div className={styles.documentButtonContainer}>
-                <button className={styles.documentButton}>Читать в источнике</button>
-                <p className={styles.documentText}>234 слова</p>
+                <Link to={url} target='_blank' className={styles.documentButton}>Читать в источнике</Link>
+                <p className={styles.documentText}>{attributes.wordCount} слова</p>
             </div>
         </div>
     )

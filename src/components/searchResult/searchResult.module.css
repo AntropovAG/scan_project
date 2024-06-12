@@ -245,6 +245,7 @@
 }
 
 .button {
+    color: rgb(0, 0, 0);
     width: 305px;
     border-radius: 5px;
     background: rgb(89, 112, 255);
@@ -255,6 +256,7 @@
     font-weight: 500;
     line-height: 27px;
     margin: 0 auto;
+    text-align: center;
 }
 
 .button:hover {

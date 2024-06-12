@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../utils/constants";
 import { getAccessToken } from "../utils/supportFunctions";
@@ -54,7 +55,7 @@ export const getUserInfo = createAsyncThunk(
         try {
             const accessToken = getAccessToken();
             if (accessToken === null) {
-                return rejectWithValue("Token not found");
+                return rejectWithValue("Нет токена");
             }
 
             const response = await fetch(`${BASE_URL}/api/v1/account/info`, {
@@ -72,7 +73,6 @@ export const getUserInfo = createAsyncThunk(
             }
 
             const result = await response.json();
-            console.log(result);
             return result;
         } catch (error: any) {
             return rejectWithValue(error.message);
