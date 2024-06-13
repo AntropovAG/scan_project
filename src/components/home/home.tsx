@@ -2,8 +2,11 @@ import styles from './home.module.css'
 import { Link } from 'react-router-dom'
 import Carousel from '../carousel/carousel'
 import Tariffs from '../tariffs/tariffs'
+import { useAppSelector } from '../../utils/hooks'
 
 export default function Home() {
+    const isAuthorized = useAppSelector(state => state.user.isAuthorized)
+
     return (
         <>
             <section className={styles.intro}>
@@ -14,7 +17,11 @@ export default function Home() {
                         <span>по его ИНН</span>
                     </h1>
                     <p className={styles.text}>Комплексный анализ публикаций, получение данных в формате PDF на электронную почту.</p>
-                    <Link className={styles.link} to={"/search"}>Запросить данные</Link>
+                    {/* Кнопка скрыта для неавторизованного пользователя */}
+                    {isAuthorized && <Link className={styles.link} to={"/search"}>Запросить данные</Link>}
+
+                    {/* Альтернатива: кнопка видна, но если пользователь авторизован, то кнопка переходит на страницу поиска, иначе на страницу авторизации
+                    <Link className={styles.link} to={isAuthorized? "/search" : "/login"}>Запросить данные</Link> */}
                 </div>
                 <img className={styles.image} src="./intro_img.svg" alt="intro image" />
             </section>
