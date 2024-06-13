@@ -24,7 +24,7 @@ export default function LoginForm() {
         message: ''
     });
     const dispatch = useAppDispatch();
-    const isAuthorized = useAppSelector(state => state.user.isAuthorized);
+    const {isAuthorized, loginServerError, isLoggingIn} = useAppSelector(state => state.user);
     const navigate = useNavigate();
 
 
@@ -40,7 +40,6 @@ export default function LoginForm() {
             login: formData.get('login') as string,
             password: formData.get('password') as string
         };
-        console.log(data);
         dispatch(loginUser(data));
     }
 
@@ -123,7 +122,8 @@ export default function LoginForm() {
                         <label className={styles.label} htmlFor="password">Пароль:</label>
                         <input className={clsx(styles.input, { [styles.errorInput]: passwordError.error === true })} type="password" id="password" name="password" onChange={handleOnChange} required />
                         <span className={styles.errorText}>{passwordError.message}</span>
-                        <button className={styles.submitButton} type="submit" disabled={!isValid}>Войти</button>
+                        <button className={styles.submitButton} type="submit" disabled={!isValid || isLoggingIn}>{isLoggingIn?'Загрузка...' :"Войти"}</button>
+                        <span className={`${styles.errorText} ${styles.serverErrorText}`}>{loginServerError}</span>
                     </form>
                     <Link className={styles.restoreLink} to={"/restore"}>Восстановить пароль</Link>
                     <div className={styles.alterLoginGroup}>

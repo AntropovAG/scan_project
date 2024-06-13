@@ -2,23 +2,11 @@ import styles from './searchForm.module.css'
 import { useState, useEffect } from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { formatDate, validateInnNumber } from '../../utils/supportFunctions';
+import { validateInnNumber, formRequestData } from '../../utils/supportFunctions';
 import { NumberFormatValues, PatternFormat } from 'react-number-format';
 import clsx from 'clsx';
-import { useAppDispatch } from '../../utils/hooks';
-import { fetchOverviewData, fetchDocumentsIds } from '../../redux/dataSlice';
 import { useNavigate } from 'react-router-dom';
-
-interface ErrorMessage {
-    error: boolean;
-    message: string;
-}
-
-interface ErrorStates {
-    inn: ErrorMessage;
-    documentNumber: ErrorMessage;
-    dates: ErrorMessage;
-}
+import { ErrorStates } from '../../interfaces/generalInterfaces';
 
 export default function SearchForm() {
     const [startDate, setStartDate] = useState<null | Date>(null);
@@ -33,83 +21,30 @@ export default function SearchForm() {
         documentNumber: { error: false, message: '' },
         dates: { error: false, message: '' }
     });
-    const dispatch = useAppDispatch();
+
     const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget);
-        const data = {
-            issueDateInterval: {
-                startDate: formatDate(startDate),
-                endDate: formatDate(endDate)
-            },
-            searchContext: {
-                targetSearchEntitiesContext: {
-                    targetSearchEntities: [
-                        {
-                            type: 'company',
-                            sparkId: null,
-                            entityId: null,
-                            inn: inn,
-                            maxFullness: formData.get('fullness') === 'on' ? true : false,
-                            inBusinessNews: formData.get('context') === 'on' ? true : false
-                        },
-                    ],
-                    onlyMainRole: formData.get('role') === 'on' ? true : false,
-                    tonality: formData.get('tonality') as string,
-                    onlyWithRiskFactors: formData.get('riskFactors') === 'on' ? true : false,
-                    riskFactors: {
-                        and: [],
-                        or: [],
-                        not: []
-                    },
-                    themes: {
-                        and: [],
-                        or: [],
-                        not: []
-                    },
-                },
-                themesFilter: {
-                    and: [],
-                    or: [],
-                    not: [],
-                },
-            },
-            searchArea: {
-                includedSources: [],
-                excludedSources: [],
-                includedSourceGroups: [],
-                excludedSourceGroups: [],
-            },
-            attributeFilters: {
-                excludeTechNews: formData.get('techNews') === 'on' ? false : true,
-                excludeAnnouncements: formData.get('announcement') === 'on' ? false : true,
-                excludeDigests: formData.get('summary') === 'on' ? false : true
-            },
-            similarMode: 'duplicates',
-            limit: parseInt(formData.get('documentNumber') as string),
-            sortType: 'sourceInfluence',
-            sortDirectionType: 'asc',
-            intervalType: 'month',
-            histogramTypes: [
-                'totalDocuments',
-                'riskFactors'
-            ]
-        };
-        // Оба промиса используют одинаковый объект data, поэтому используется Promise.all
-        Promise.all([dispatch(fetchOverviewData(data)), dispatch(fetchDocumentsIds(data))])
-            .then(([overviewResult, documentsResult ]) => {
-                if (fetchOverviewData.fulfilled.match(overviewResult) && fetchDocumentsIds.fulfilled.match(documentsResult)) {
-                    // Переход на страницу с результатами поиска только в случае успешного получения данных
-                    navigate('/result');
-                } else {
-                    console.log('Ошибка при получении данных');
-                }
-            })
-            .catch((error) => {
-                console.log('Ошибка получения данных: ', error);
-            });
+        const data = formRequestData(formData, startDate, endDate, inn);
+        navigate('/result', { state: { data } });
+        
+        // Как альтернатива - можно загружать данные внутри текущего компонента и переходить в результаты поиска только после успешного получения данных (кроме статей)
+        // Пока будет загрузка - установить спиннер или надпись на кнопке формы и заблокировать её
+
+        // Promise.all([dispatch(fetchOverviewData(data)), dispatch(fetchDocumentsIds(data))])
+        //     .then(([overviewResult, documentsResult ]) => {
+        //         if (fetchOverviewData.fulfilled.match(overviewResult) && fetchDocumentsIds.fulfilled.match(documentsResult)) {
+        //             // Переход на страницу с результатами поиска только в случае успешного получения данных
+        //             navigate('/result');
+        //         } else {
+        //             console.log('Ошибка при получении данных');
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         console.log('Ошибка получения данных: ', error);
+        //     });
     }
 
         const validateInn = (value: string) => {
@@ -120,7 +55,6 @@ export default function SearchForm() {
                     ...prevState, inn: {
                         error: true,
                         message: 'Введите корректные данные'
-
                     }
                 }));
             }
@@ -129,7 +63,6 @@ export default function SearchForm() {
                     ...prevState, inn: {
                         error: false,
                         message: ''
-
                     }
                 }));
             }
@@ -143,7 +76,6 @@ export default function SearchForm() {
                     ...prevState, documentNumber: {
                         error: true,
                         message: 'Введите корректные данные'
-
                     }
                 }));
             }
@@ -152,7 +84,6 @@ export default function SearchForm() {
                     ...prevState, documentNumber: {
                         error: false,
                         message: ''
-
                     }
                 }));
             }
@@ -167,7 +98,6 @@ export default function SearchForm() {
                     ...prevState, dates: {
                         error: true,
                         message: 'Введите корректные данные'
-
                     }
                 }));
             }
@@ -176,7 +106,6 @@ export default function SearchForm() {
                     ...prevState, dates: {
                         error: false,
                         message: ''
-
                     }
                 }));
             }
@@ -302,15 +231,12 @@ export default function SearchForm() {
                                 <button className={styles.submitButton} type="submit" disabled={!formIsValid}>Поиск</button>
                                 <p className={styles.disclaimerText}>* Обязательные к заполнению поля</p>
                             </div>
-
                         </div>
-
                     </form>
                     <div className={styles.imageContainer}>
                         <img className={styles.image} src="./search_form_image.svg" alt="search image" />
                     </div>
                 </div>
-
             </section>
         )
     }

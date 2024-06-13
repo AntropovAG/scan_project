@@ -2,25 +2,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../utils/constants";
 import { getAccessToken } from "../utils/supportFunctions";
+import { UserState } from "../interfaces/userSliceinterface";
 
-interface UserData {
-    companyLimit: number;
-    usedCompanyCount: number;
-}
-
-interface UserState {
-    isAuthorized: boolean;
-    isLoading: boolean;
-    userInfo: UserData;
-}
 
 const initialState: UserState = {
     isAuthorized: false,
+    isLoggingIn: false,
     isLoading: false,
+    isFirstLoad: true,
     userInfo: {
         companyLimit: 0,
         usedCompanyCount: 0,
     },
+    loginServerError: "",
 };
 
 export const loginUser = createAsyncThunk(
@@ -38,7 +32,7 @@ export const loginUser = createAsyncThunk(
 
             if (!response.ok) {
                 const serverError = await response.json();
-                return rejectWithValue(serverError);
+                return rejectWithValue(serverError.message);
             }
 
             const result = await response.json();
@@ -108,21 +102,32 @@ const userSlice = createSlice({
             } else {
                 state.isAuthorized = false;
             }
+            state.isFirstLoad = false; // Чтобы при перезагрузке страницы не происходил переход на главную пока проверка не закончена
         },
     },
     extraReducers: (builder) => {
         builder.addCase(loginUser.fulfilled, (state, action) => {
             localStorage.setItem("tokenData", JSON.stringify(action.payload));
             state.isAuthorized = true;
+            state.loginServerError = "";
+            state.isLoggingIn = false;
         })
-        builder.addCase(getUserInfo.pending, (state) => {
+        .addCase(loginUser.rejected, (state, action) => {
+            state.loginServerError = action.payload as string;
+            state.isLoggingIn = false;
+        })
+        .addCase(loginUser.pending, (state) => {
+            state.loginServerError = "";
+            state.isLoggingIn = true;
+        })
+        .addCase(getUserInfo.pending, (state) => {
             state.isLoading = true;
         })
-        builder.addCase(getUserInfo.fulfilled, (state, action) => {
+        .addCase(getUserInfo.fulfilled, (state, action) => {
             state.isLoading = false;
             state.userInfo = action.payload.eventFiltersInfo;
         })
-        builder.addCase(getUserInfo.rejected, (state) => {
+        .addCase(getUserInfo.rejected, (state) => {
             state.isLoading = false;
         })
     },

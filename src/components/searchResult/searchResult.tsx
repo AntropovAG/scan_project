@@ -1,10 +1,12 @@
 import styles from './searchResult.module.css';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import ListItem from '../listItem/listItem';
 import { useAppSelector, useAppDispatch } from '../../utils/hooks';
-import { formatDate } from '../../utils/supportFunctions';
+import { formatDate, normalizeCountText } from '../../utils/supportFunctions';
+import { variantsArray } from '../../utils/constants';
 import Spinner from '../spinner/spinner';
-import { fetchArticles } from '../../redux/dataSlice';
+import { fetchArticles, fetchDocumentsIds, fetchOverviewData } from '../../redux/dataSlice';
+import { useLocation } from 'react-router-dom';
 
 export default function SearchResult() {
     const sliderRef = useRef<HTMLDivElement>(null);
@@ -15,30 +17,57 @@ export default function SearchResult() {
     const [isButtonDisplayed, setIsButtonDisplayed] = useState<boolean>(true);
     const dispatch = useAppDispatch();
     const overviewData = useAppSelector(state => state.data.overviewData);
-    const overviewIsLoading = useAppSelector(state => state.data.overviewIsLoading);
+    const { overviewIsLoading, idsAreLoading, articlesAreLoading } = useAppSelector(state => state.data);
     const iDsList = useAppSelector(state => state.data.ids);
     const articles = useAppSelector(state => state.data.articles);
+    const location = useLocation();
+    const { data } = location.state; // Получаем данные из loaction state после перехода с из компонента формы
+    const variantsSum = useMemo(() => {return overviewData.reduce((acc, item) => acc + item["documentsCount"], 0)}, [overviewData]);
 
     useEffect(() => {
-        if (iDsList.length <= 10) {
-            dispatch(fetchArticles({ids: iDsList}));
-            setIsButtonDisplayed(false);
+        Promise.all([dispatch(fetchOverviewData(data)), dispatch(fetchDocumentsIds(data))])
+            .catch((error) => {
+                console.log('Ошибка получения данных: ', error);
+            });
+    }, [dispatch, data]);
+
+    useEffect(() => {
+        if (!idsAreLoading && !overviewIsLoading && iDsList.length > 0) {
+            if (iDsList.length <= 10) {
+                dispatch(fetchArticles({ ids: iDsList }));
+                setIsButtonDisplayed(false);
+            }
+            if (iDsList.length > 10) {
+                dispatch(fetchArticles({ ids: iDsList.slice(0, 10) }));
+                setCurrentIndex(10);
+            }
         }
-        if (iDsList.length > 10) {
-            dispatch(fetchArticles({ids: iDsList.slice(0, 10)}));
-            setCurrentIndex(10);
-        }
-    }, []);
+    }, [dispatch, iDsList, idsAreLoading, overviewIsLoading]);
 
     const handleLoadMore = () => {
+        if (articlesAreLoading) return;
+
         const updatedIndex = currentIndex + 10;
         const updatedList = iDsList.slice(currentIndex, updatedIndex);
-        if (updatedList.length < 10) {
+
+        if (updatedList.length === 0) {
             setIsButtonDisplayed(false);
+            return;
         }
-        dispatch(fetchArticles({ids: updatedList}));
+
+        dispatch(fetchArticles({ ids: updatedList }));
         setCurrentIndex(updatedIndex);
+
+        if (updatedList.length < 10) setIsButtonDisplayed(false);
     }
+    
+    const handleScroll = () => {
+        if (sliderRef.current) {
+            const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
+            setscrollableToPrev(scrollLeft > 0);
+            setscrollableToNext(scrollLeft < (scrollWidth - clientWidth));
+        }
+    };
 
     const handleSliderScrollResize = () => {
         const innerWidth = window.innerWidth;
@@ -47,6 +76,7 @@ export default function SearchResult() {
         } else {
             setScrollAmount(266);
         }
+        handleScroll(); // Вызываем функцию скролла для корректного отображения кнопок
     };
 
     useEffect(() => {
@@ -58,17 +88,11 @@ export default function SearchResult() {
             window.removeEventListener('resize', handleSliderScrollResize);
         }
     }, []);
-
+    
 
     // Добавляем листенер для возможности скролла слайдера
     useEffect(() => {
-        const handleScroll = () => {
-            if (sliderRef.current) {
-                const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
-                setscrollableToPrev(scrollLeft > 0);
-                setscrollableToNext(scrollLeft < (scrollWidth - clientWidth));
-            }
-        };
+        handleScroll();
 
         const slider = sliderRef.current; // помещаем ссылку на слайдер в переменную
         if (slider) {
@@ -76,7 +100,6 @@ export default function SearchResult() {
             handleScroll();
         }
 
-        //Очищаем при размонтировании
         return () => {
             if (slider) {
                 slider.removeEventListener('scroll', handleScroll);
@@ -84,7 +107,7 @@ export default function SearchResult() {
         };
     }, []);
 
-    // Функции для скролла слайдера, перемещают слайдер на 266px вправо или влево (примерно на два элемента)
+    // Функции для скролла слайдера, перемещают слайдер на размер элемента в зависимости от того, какой размер у окна
 
     const scrollNext = () => {
         if (sliderRef.current) {
@@ -110,7 +133,7 @@ export default function SearchResult() {
 
             <article className={styles.infoContainer}>
                 <h3 className={styles.infoHeading}>Общая сводка</h3>
-                <p className={styles.infoText}>Найдено 999 вариантов</p>
+                <p className={styles.infoText}>Найдено {`${variantsSum} ${normalizeCountText(variantsSum, variantsArray)}`}</p>
                 <div className={styles.sliderContainer}>
                     <button className={`${styles.navButton} ${styles.prevButton}`} onClick={scrollPrev} disabled={!scrollableToPrev}></button>
                     <button className={`${styles.navButton} ${styles.nextButton}`} onClick={scrollNext} disabled={!scrollableToNext}></button>
@@ -120,17 +143,23 @@ export default function SearchResult() {
                         <h3 className={styles.sliderTitle}>Риски</h3>
                     </div>
                     <div className={styles.slider} ref={sliderRef}>
-                        {overviewIsLoading && <Spinner isBig={true} />}
-                        {!overviewData || overviewData.length === 0 ? <p className={styles.resultText}>Нет данных</p> : 
-                        overviewData.map((item, index) => {
-                            return (
-                                <div className={styles.resultItem} key={index}>
-                                    <p className={styles.resultText}>{formatDate(item.date)}</p>
-                                    <p className={styles.resultText}>{item.documentsCount}</p>
-                                    <p className={styles.resultText}>{item.riskCount}</p>
-                                </div>
+                        {overviewIsLoading ? (
+                            <Spinner isBig={true} />
+                        ) : (
+                            (!overviewData || overviewData.length === 0) ? (
+                                <p className={styles.resultText}>Нет данных</p>
+                            ) : (
+                                overviewData.map((item, index) => {
+                                    return (
+                                        <div className={styles.resultItem} key={index}>
+                                            <p className={styles.resultText}>{formatDate(item.date)}</p>
+                                            <p className={styles.resultText}>{item.documentsCount}</p>
+                                            <p className={styles.resultText}>{item.riskCount}</p>
+                                        </div>
+                                    );
+                                })
                             )
-                        })}
+                        )}
                     </div>
                 </div>
             </article>
@@ -141,11 +170,12 @@ export default function SearchResult() {
                     {articles.map((item, index) => {
                         return (
                             <li key={index}>
-                                <ListItem data={item}/>
+                                <ListItem data={item} />
                             </li>
                         )
                     })}
                 </ul>
+                {articlesAreLoading && <Spinner isBig={true} />}
                 {isButtonDisplayed && <button className={styles.button} onClick={handleLoadMore}>Показать ещё</button>}
             </article>
         </section>

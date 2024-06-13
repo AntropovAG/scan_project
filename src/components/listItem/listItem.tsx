@@ -1,7 +1,9 @@
 import styles from './listItem.module.css';
 import { formatDate } from '../../utils/supportFunctions';
 import { Link } from 'react-router-dom';
-import { parceText } from '../../utils/supportFunctions';
+import { parceText, normalizeCountText } from '../../utils/supportFunctions';
+import { wordsArray, articlesImage } from '../../utils/constants';
+import DOMPurify from 'dompurify'
 
 interface ListItemProps {
     data: {
@@ -21,9 +23,9 @@ interface ListItemProps {
 
 export default function ListItem({data}: ListItemProps) {
     const { attributes, date, source, text, title, url} = data;
+    const sanitizedText = DOMPurify.sanitize(text);
 
-
-    const parsedText = parceText(text);
+    const parsedText = parceText(sanitizedText);
     return (
         <div className={styles.documentsListItem}>
             <div className={styles.documentInfoContainer}>
@@ -36,11 +38,11 @@ export default function ListItem({data}: ListItemProps) {
                 {attributes.isAnnouncement && <p className={styles.documentType}>Анонс</p>}
                 {attributes.isTechNews && <p className={styles.documentType}>Технические новости</p>}
             </div>
-            <img src="./card_img.svg" alt="document image" />
+            <img src={articlesImage.src} alt={articlesImage.alt} />
             <p className={`${styles.documentText} ${styles.documentDescription}`} dangerouslySetInnerHTML={{__html: parsedText}}></p>
             <div className={styles.documentButtonContainer}>
                 <Link to={url} target='_blank' className={styles.documentButton}>Читать в источнике</Link>
-                <p className={styles.documentText}>{attributes.wordCount} слова</p>
+                <p className={styles.documentText}>{`${attributes.wordCount} ${normalizeCountText(attributes.wordCount, wordsArray)}`}</p>
             </div>
         </div>
     )

@@ -77,3 +77,12 @@ export const userData = {
     name: 'Антон А.',
     img: './photo_sample.svg'
 }
+
+export const articlesImage = {
+    src: './card_img.svg',
+    alt: 'document image'
+
+}
+
+export const wordsArray = ['слово', 'слова', 'слов'];
+export const variantsArray = ['вариант', 'варианта', 'вариантов'];

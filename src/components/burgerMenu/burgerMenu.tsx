@@ -5,10 +5,9 @@ import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../utils/hooks';
 import { logout } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { BurgerMenuInterface } from '../../interfaces/generalInterfaces';
 
-interface BurgerMenu {
-    isOpen: boolean;
-}
+
 
 export default function BurgerMenu() {
     const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState<boolean>(false);
@@ -21,7 +20,7 @@ export default function BurgerMenu() {
         navigate('/');
     }
 
-    const handleBurgerMenu = (state: BurgerMenu) => {
+    const handleBurgerMenu = (state: BurgerMenuInterface) => {
         setIsBurgerMenuOpen(state.isOpen);
     }
 

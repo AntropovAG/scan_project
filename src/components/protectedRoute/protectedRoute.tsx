@@ -3,18 +3,18 @@ import { useNavigate } from "react-router-dom";
 
 interface ProtectedRouteProps {
     isLoggedIn: boolean;
+    isLoading: boolean;
     children: React.ReactNode;
-
 }
 
-const ProtectedRoute = ({ isLoggedIn, children }: ProtectedRouteProps) => {
+const ProtectedRoute = ({ isLoggedIn, isLoading, children }: ProtectedRouteProps) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!isLoggedIn) {
+        if (!isLoggedIn && !isLoading) {
             navigate('/', { replace: true });
         }
-    }, [navigate, isLoggedIn]);
+    }, [navigate, isLoggedIn, isLoading]);
 
 
     return children;

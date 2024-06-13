@@ -3,49 +3,13 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../utils/constants";
 import { getAccessToken } from "../utils/supportFunctions";
 import { SearchData } from "../interfaces/searchInterface";
-
-interface IDsList {
-    ids: string[];
-}
-
-interface IDItem {
-    encodedId: string;
-    influence: number;
-    similarCount: number;
-}
-
-interface FormattedData {
-    date: string;
-    documentsCount: number;
-    riskCount: number;
-}
-
-interface ItemData {
-    date: string;
-    value: number;
-}
-
-interface HistogramData {
-    data: ItemData[];
-    histogramType: string;
-}
-
-interface OverviewData {
-    date: string;
-    documentsCount: number;
-    riskCount: number;
-}
-
-interface DataState {
-    overviewData: OverviewData[];
-    overviewIsLoading: boolean;
-    ids: string[];
-    articles: any[];
-}
+import { IDsList, IDItem, FormattedData, HistogramData, ItemData, DataState } from "../interfaces/dataSliceInterface";
 
 const initialState: DataState = {
     overviewData: [],
     overviewIsLoading: false,
+    idsAreLoading: false,
+    articlesAreLoading: false,
     ids: [],
     articles: [],
 };
@@ -182,7 +146,6 @@ export const fetchArticles = createAsyncThunk(
                     url: article.url,
                 };
             });
-            console.log(result);
             return formattedArticles;
         } catch (error: any) {
             return rejectWithValue(error.message);
@@ -212,9 +175,25 @@ export const dataSlice = createSlice({
             })
             .addCase(fetchDocumentsIds.fulfilled, (state, action) => {
                 state.ids = action.payload;
+                state.idsAreLoading = false;
+            })
+            .addCase(fetchDocumentsIds.rejected, (state) => {
+                state.idsAreLoading = false;
+            })
+            .addCase(fetchDocumentsIds.pending, (state) => {
+                state.idsAreLoading = true;
+                state.ids = [];
+                state.articles = [];
             })
             .addCase(fetchArticles.fulfilled, (state, action) => {
                 state.articles = [...state.articles, ...action.payload];
+                state.articlesAreLoading = false;
+            })
+            .addCase(fetchArticles.rejected, (state) => {
+                state.articlesAreLoading = false;
+            })
+            .addCase(fetchArticles.pending, (state) => {
+                state.articlesAreLoading = true;
             });
     },
 });
