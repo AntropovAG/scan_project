@@ -7,6 +7,8 @@ import { NumberFormatValues, PatternFormat } from 'react-number-format';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import { ErrorStates } from '../../interfaces/generalInterfaces';
+import { checkUserAuthorization } from '../../redux/userSlice';
+import { useAppDispatch } from '../../utils/hooks';
 
 export default function SearchForm() {
     const [startDate, setStartDate] = useState<null | Date>(null);
@@ -21,10 +23,12 @@ export default function SearchForm() {
         documentNumber: { error: false, message: '' },
         dates: { error: false, message: '' }
     });
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        dispatch(checkUserAuthorization());
         const formData = new FormData(e.currentTarget);
         const data = formRequestData(formData, startDate, endDate, inn);
         navigate('/result', { state: { data } });
