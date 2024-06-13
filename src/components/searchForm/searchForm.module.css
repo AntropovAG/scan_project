@@ -100,7 +100,7 @@ input::placeholder {
 
 .select {
     appearance: none;
-    background-image: url('./select_arrow.svg');
+    background-image: url('/select_arrow.svg');
     background-repeat: no-repeat;
     background-position: right 15px center;
 }
@@ -148,7 +148,7 @@ input[type="checkbox"]::before {
     position: absolute;
     top: 2px;
     left: 2px;
-    content: url('./checkmark.svg');
+    content: url('/checkmark.svg');
     width: 10px;
     height: 10px;
     transform: scale(0);

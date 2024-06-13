@@ -54,13 +54,13 @@
 }
 
 .buttonPrev {
-    background-image: url('./arrow_left.svg');
+    background-image: url('/arrow_left.svg');
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .buttonNext {
-    background-image: url('./arrow_right.svg');
+    background-image: url('/arrow_right.svg');
 }
 
 @media screen and (max-width: 1350px) {

@@ -128,13 +128,13 @@
 .prevButton {
     top: 35%;
     left: -43px;
-    background-image: url('./prev_arrow.svg');
+    background-image: url('/prev_arrow.svg');
 }
 
 .nextButton {
     top: 35%;
     right: -43px;
-    background-image: url('./next_arrow.svg');
+    background-image: url('/next_arrow.svg');
 }
 
 .documentsListContainer {

@@ -164,7 +164,7 @@
 }
 
 .listItem::before {
-    content: url('./list_icon.svg');
+    content: url('/list_icon.svg');
     position: absolute;
     left: 0;
     top: 0;

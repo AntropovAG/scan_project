@@ -78,7 +78,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .bm-cross-button {
     height: 25px;
     width: 25px;
-    background-image: url('./close_button.svg');
+    background-image: url('/close_button.svg');
     right: 28px !important;
     top: 32px !important;
 }
