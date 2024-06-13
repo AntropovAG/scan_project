@@ -27,7 +27,6 @@ export default function LoginForm() {
     const {isAuthorized, loginServerError, isLoggingIn} = useAppSelector(state => state.user);
     const navigate = useNavigate();
 
-
     const handleButtonChange = (e: React.MouseEvent<HTMLButtonElement>) => {
         setActiveButton(e.currentTarget.id);
     }

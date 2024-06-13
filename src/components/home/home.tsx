@@ -18,13 +18,10 @@ export default function Home() {
                 </div>
                 <img className={styles.image} src="./intro_img.svg" alt="intro image" />
             </section>
-
             <Carousel />
-
             <div className={styles.divider}>
                 <img className={styles.dividerImage}  src="./home_img.svg" alt="divider image" />
             </div>
-
             <Tariffs />
         </>
 

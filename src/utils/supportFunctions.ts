@@ -77,6 +77,7 @@ export const parceText = (textData: string) => {
     return text.replace(/<\/*?["^"]*["^"]*[^>]*>(>|\$)/g, "");
 };
 
+//В зависимости от числа возвращаем текст с верным окончанием (варианты текста передаём в виде массива строк)
 export const normalizeCountText = (number: number, words_arr: string[]) => {
     number = Math.abs(number);
     if (Number.isInteger(number)) {
@@ -92,66 +93,70 @@ export const normalizeCountText = (number: number, words_arr: string[]) => {
 
 export const sumObjectsInArray = (array: any[], key: string) => {
     return array.reduce((acc, item) => acc + item[key], 0);
-}
+};
 
 //Вынес формирование данных для запроса в отдельную функцию
-export const formRequestData = (formData: FormData, startDate: Date | null, endDate: Date | null, inn: string) => {
+export const formRequestData = (
+    formData: FormData,
+    startDate: Date | null,
+    endDate: Date | null,
+    inn: string
+) => {
     return {
-    issueDateInterval: {
-        startDate: formatDate(startDate),
-        endDate: formatDate(endDate)
-    },
-    searchContext: {
-        targetSearchEntitiesContext: {
-            targetSearchEntities: [
-                {
-                    type: 'company',
-                    sparkId: null,
-                    entityId: null,
-                    inn: inn,
-                    maxFullness: formData.get('fullness') === 'on' ? true : false,
-                    inBusinessNews: formData.get('context') === 'on' ? true : false
+        issueDateInterval: {
+            startDate: formatDate(startDate),
+            endDate: formatDate(endDate),
+        },
+        searchContext: {
+            targetSearchEntitiesContext: {
+                targetSearchEntities: [
+                    {
+                        type: "company",
+                        sparkId: null,
+                        entityId: null,
+                        inn: inn,
+                        maxFullness: formData.get("fullness") === "on" ? true : false,
+                        inBusinessNews: formData.get("context") === "on" ? true : false,
+                    },
+                ],
+                onlyMainRole: formData.get("role") === "on" ? true : false,
+                tonality: formData.get("tonality") as string,
+                onlyWithRiskFactors:
+                    formData.get("riskFactors") === "on" ? true : false,
+                riskFactors: {
+                    and: [],
+                    or: [],
+                    not: [],
                 },
-            ],
-            onlyMainRole: formData.get('role') === 'on' ? true : false,
-            tonality: formData.get('tonality') as string,
-            onlyWithRiskFactors: formData.get('riskFactors') === 'on' ? true : false,
-            riskFactors: {
+                themes: {
+                    and: [],
+                    or: [],
+                    not: [],
+                },
+            },
+            themesFilter: {
                 and: [],
                 or: [],
-                not: []
-            },
-            themes: {
-                and: [],
-                or: [],
-                not: []
+                not: [],
             },
         },
-        themesFilter: {
-            and: [],
-            or: [],
-            not: [],
+        searchArea: {
+            includedSources: [],
+            excludedSources: [],
+            includedSourceGroups: [],
+            excludedSourceGroups: [],
         },
-    },
-    searchArea: {
-        includedSources: [],
-        excludedSources: [],
-        includedSourceGroups: [],
-        excludedSourceGroups: [],
-    },
-    attributeFilters: {
-        excludeTechNews: formData.get('techNews') === 'on' ? false : true,
-        excludeAnnouncements: formData.get('announcement') === 'on' ? false : true,
-        excludeDigests: formData.get('summary') === 'on' ? false : true
-    },
-    similarMode: 'duplicates',
-    limit: parseInt(formData.get('documentNumber') as string),
-    sortType: 'sourceInfluence',
-    sortDirectionType: 'asc',
-    intervalType: 'month',
-    histogramTypes: [
-        'totalDocuments',
-        'riskFactors'
-    ]
-}
+        attributeFilters: {
+            excludeTechNews: formData.get("techNews") === "on" ? false : true,
+            excludeAnnouncements:
+                formData.get("announcement") === "on" ? false : true,
+            excludeDigests: formData.get("summary") === "on" ? false : true,
+        },
+        similarMode: "duplicates",
+        limit: parseInt(formData.get("documentNumber") as string),
+        sortType: "sourceInfluence",
+        sortDirectionType: "asc",
+        intervalType: "month",
+        histogramTypes: ["totalDocuments", "riskFactors"],
+    };
 };

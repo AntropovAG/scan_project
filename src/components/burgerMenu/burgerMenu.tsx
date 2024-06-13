@@ -7,8 +7,6 @@ import { logout } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { BurgerMenuInterface } from '../../interfaces/generalInterfaces';
 
-
-
 export default function BurgerMenu() {
     const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState<boolean>(false);
     const isAuthorized = useAppSelector(state => state.user.isAuthorized);

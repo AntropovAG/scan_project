@@ -21,7 +21,6 @@ export default function SearchForm() {
         documentNumber: { error: false, message: '' },
         dates: { error: false, message: '' }
     });
-
     const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

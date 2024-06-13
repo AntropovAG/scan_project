@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import Spinner from '../spinner/spinner';
 import { userData } from '../../utils/constants';
 
-
 export default function Header() {
     const [isMobile, setIsMobile] = useState<boolean>(innerWidth <= 745);
     const dispatch = useAppDispatch();
@@ -45,11 +44,9 @@ export default function Header() {
     return (
         <header className={styles.header}>
             <div className={styles.container}>
-
                 <div className={styles.imgContainer}>
                     <img className={styles.image} src="./logo.svg" alt="logo" />
                 </div>
-
                 <nav className={styles.navigation}>
                     <ul className={styles.navList}>
                         <li><Link className={styles.link} to={"/"}>Главная</Link></li>
@@ -57,7 +54,6 @@ export default function Header() {
                         <li><Link className={styles.link} to={"/faq"}>FAQ</Link></li>
                     </ul>
                 </nav>
-
                 <div className={styles.panelContainer}>
                     {isAuthorized ?
                         <>

@@ -10,12 +10,10 @@
         width: 728px;
         margin-bottom: 50px;
     }
-    
 }
 
 @media screen and (max-width: 745px) {
     .main {
         width: 375px;
     }
-    
 }

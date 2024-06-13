@@ -4,7 +4,6 @@ import { BASE_URL } from "../utils/constants";
 import { getAccessToken } from "../utils/supportFunctions";
 import { UserState } from "../interfaces/userSliceinterface";
 
-
 const initialState: UserState = {
     isAuthorized: false,
     isLoggingIn: false,
@@ -63,7 +62,7 @@ export const getUserInfo = createAsyncThunk(
 
             if (!response.ok) {
                 const serverError = await response.json();
-                return rejectWithValue(serverError);
+                return rejectWithValue(serverError.message);
             }
 
             const result = await response.json();
@@ -120,15 +119,15 @@ const userSlice = createSlice({
             state.loginServerError = "";
             state.isLoggingIn = true;
         })
-        .addCase(getUserInfo.pending, (state) => {
-            state.isLoading = true;
-        })
         .addCase(getUserInfo.fulfilled, (state, action) => {
             state.isLoading = false;
             state.userInfo = action.payload.eventFiltersInfo;
         })
         .addCase(getUserInfo.rejected, (state) => {
             state.isLoading = false;
+        })
+        .addCase(getUserInfo.pending, (state) => {
+            state.isLoading = true;
         })
     },
 });

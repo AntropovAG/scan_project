@@ -81,7 +81,6 @@ export const userData = {
 export const articlesImage = {
     src: './card_img.svg',
     alt: 'document image'
-
 }
 
 export const wordsArray = ['слово', 'слова', 'слов'];

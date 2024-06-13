@@ -242,7 +242,6 @@
     .text {
         justify-self: start;
     }
-    
 
     .userInfoContainer {
         gap: 0;
@@ -256,5 +255,4 @@
         justify-content: flex-start;
         padding-left: 30px;
     }
-    
 }

@@ -5,7 +5,7 @@ import { useAppSelector, useAppDispatch } from '../../utils/hooks';
 import { formatDate, normalizeCountText } from '../../utils/supportFunctions';
 import { variantsArray } from '../../utils/constants';
 import Spinner from '../spinner/spinner';
-import { fetchArticles, fetchDocumentsIds, fetchOverviewData } from '../../redux/dataSlice';
+import { fetchArticles, fetchDocumentsIds, fetchOverviewData, resetData } from '../../redux/dataSlice';
 import { useLocation } from 'react-router-dom';
 
 export default function SearchResult() {
@@ -24,13 +24,16 @@ export default function SearchResult() {
     const { data } = location.state; // Получаем данные из loaction state после перехода с из компонента формы
     const variantsSum = useMemo(() => {return overviewData.reduce((acc, item) => acc + item["documentsCount"], 0)}, [overviewData]);
 
+    //Загрузка всх базовых данных при монтировании компонента на основе сформированного из формы запроса
     useEffect(() => {
+        dispatch(resetData());
         Promise.all([dispatch(fetchOverviewData(data)), dispatch(fetchDocumentsIds(data))])
             .catch((error) => {
                 console.log('Ошибка получения данных: ', error);
             });
     }, [dispatch, data]);
 
+    //Загрузка статей только после того как загрузились ID документов и общая сводка
     useEffect(() => {
         if (!idsAreLoading && !overviewIsLoading && iDsList.length > 0) {
             if (iDsList.length <= 10) {
@@ -60,7 +63,8 @@ export default function SearchResult() {
 
         if (updatedList.length < 10) setIsButtonDisplayed(false);
     }
-    
+
+    // Функция для скролла слайдера, проверяет, можно ли скроллить влево или вправо
     const handleScroll = () => {
         if (sliderRef.current) {
             const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;

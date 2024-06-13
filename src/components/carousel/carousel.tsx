@@ -54,7 +54,6 @@ export default function Carousel() {
                 })}
                 <button className={`${styles.button} ${styles.buttonNext}`} onClick={handleNext}></button>
             </div>
-
         </section>
     )
 }

@@ -37,7 +37,7 @@ export const fetchOverviewData = createAsyncThunk(
 
             if (!response.ok) {
                 const serverError = await response.json();
-                return rejectWithValue(serverError);
+                return rejectWithValue(serverError.message);
             }
 
             const result = await response.json();
@@ -94,7 +94,7 @@ export const fetchDocumentsIds = createAsyncThunk(
 
             if (!response.ok) {
                 const serverError = await response.json();
-                return rejectWithValue(serverError);
+                return rejectWithValue(serverError.message);
             }
 
             const result = await response.json();
@@ -126,11 +126,12 @@ export const fetchArticles = createAsyncThunk(
 
             if (!response.ok) {
                 const serverError = await response.json();
-                return rejectWithValue(serverError);
+                return rejectWithValue(serverError.message);
             }
 
             const result = await response.json();
             const articles = result.map((item: any) => item.ok);
+            //Форматирование данных, выбираем только нужные поля
             const formattedArticles = articles.map((article: any) => {
                 return {
                     attributes: {
@@ -157,9 +158,10 @@ export const dataSlice = createSlice({
     name: "data",
     initialState,
     reducers: {
-        setData: (state, action) => {
-            state.overviewData = action.payload;
-        },
+        resetData: (state) => {
+            state.ids = [];
+            state.articles = [];
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -182,8 +184,6 @@ export const dataSlice = createSlice({
             })
             .addCase(fetchDocumentsIds.pending, (state) => {
                 state.idsAreLoading = true;
-                state.ids = [];
-                state.articles = [];
             })
             .addCase(fetchArticles.fulfilled, (state, action) => {
                 state.articles = [...state.articles, ...action.payload];
@@ -198,5 +198,5 @@ export const dataSlice = createSlice({
     },
 });
 
-export const { setData } = dataSlice.actions;
+export const { resetData } = dataSlice.actions;
 export default dataSlice.reducer;
